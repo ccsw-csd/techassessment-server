@@ -279,7 +279,7 @@ public List<ProfileGroup> findAllProfile(String id) {
 	  case "Architects & SE Integration & APIs":
 		  return architectsAndSEIntegrationAndApis(findByTypeAndSubtype, listAll);
 	  case "Pyramid Grade-Rol":
-//		  return pyramid(findByTypeAndSubtype, listAll);
+		  return pyramid(findByTypeAndSubtype, listAll);
 	  default:
 		  System.out.println("entrada no válida");
 		  //TODO lanzar exception

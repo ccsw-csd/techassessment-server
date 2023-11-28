@@ -1,14 +1,19 @@
 package com.ccsw.dashboard.profile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
+//import org.apache.commons.csv.CSVFormat;
+//import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -21,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.dashboard.common.Report;
 import com.ccsw.dashboard.config.literal.LiteralService;
 import com.ccsw.dashboard.config.literal.model.Literal;
 import com.ccsw.dashboard.profile.model.Profile;
@@ -269,7 +275,7 @@ public class ExportServiceImpl implements ExportService {
 		
 //		File currDir = new File(".");
 //		String path = currDir.getAbsolutePath();
-//		String fileLocation = path.substring(0, path.length() - 1) + id + "_" + currentDateTime.substring(0, 10) + "_Detail.xlsx.xlsx";
+//		String fileLocation = path.substring(0, path.length() - 1) + id + "_" + currentDateTime.substring(0, 10) + "_Detail.xlsx";
 //		FileOutputStream outputStream = new FileOutputStream(fileLocation);
 
 		ServletOutputStream outputStream = servletResponse.getOutputStream();		
@@ -281,5 +287,34 @@ public class ExportServiceImpl implements ExportService {
 		workbook.write(outputStream);
 		workbook.close();
 		outputStream.close();
+	}
+	
+	@Override
+	public void writeProfileToTemplateExcel(String id, HttpServletResponse servletResponse) throws IOException {		
+				
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+		
+//		File currDir = new File(".");
+//		String path = currDir.getAbsolutePath();
+//		String fileLocation = path.substring(0, path.length() - 1) + id + "_" + currentDateTime.substring(0, 10) + "_Detail.xls";
+//		FileOutputStream outputStream = new FileOutputStream(fileLocation);
+
+		ServletOutputStream outputStream = servletResponse.getOutputStream();		
+		servletResponse.setContentType("application/octet-stream");
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=" + id + "_" + currentDateTime.substring(0, 10) + "_Detail.xls";
+		servletResponse.setHeader(headerKey, headerValue);		
+		
+		Map<String, Object> data = new HashMap<>();		
+		List<Profile> profileList = new ArrayList<Profile>();
+		
+		for (ProfileGroup pgroup : profileGroup) {
+			profileList.addAll(pgroup.getProfile());
+		}
+		data.put("profileList", profileList);
+		data.put("createdAt", currentDateTime.substring(0, 10));
+		Report report = new Report();
+		report.createDocument(outputStream, "profileList", data);
 	}
 }

@@ -61,4 +61,11 @@ public class ProfileController {
     	//new ExportServiceImpl(null, this.profileService.findAllProfile(id)).writeProfileToExcel(id, servletResponse);
     }
     
+    @RequestMapping(path = "/profilelist/{id}/xls", method = RequestMethod.GET)
+    public void findAllProfileXls(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
+    	exportService.setProfileGroup(this.profileService.findAllProfile(id));
+    	exportService.writeProfileToTemplateExcel(id, servletResponse);
+    	//new ExportServiceImpl(null, this.profileService.findAllProfile(id)).writeProfileToExcel(id, servletResponse);
+    }
+    
 }
