@@ -12,6 +12,7 @@ import com.ccsw.dashboard.config.literal.LiteralService;
 import com.ccsw.dashboard.config.literal.model.Literal;
 import com.ccsw.dashboard.graderole.GradeRoleService;
 import com.ccsw.dashboard.graderole.model.GradeRole;
+import com.ccsw.dashboard.graderole.model.GradeTotal;
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
@@ -58,6 +59,8 @@ public class ProfileServiceImpl implements ProfileService {
 			  return architectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Integration & APIs":
 			  return architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
+		  case "Pyramid Grade-Rol":
+			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals());
 		  case "All":
 			  return allTotal(findByTypeAndSubtype, listAll);
 		  default:
@@ -275,6 +278,24 @@ private List<ProfileTotal> architectsAndSEIntegrationAndApisTotal(List<Literal> 
 	return profileTotalList;	
 }
 
+private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {	
+	
+	List<ProfileTotal> profileTotalList = new ArrayList<>();
+	for (GradeTotal gradeTotal : list) {
+		ProfileTotal profileTotal = new ProfileTotal();
+		profileTotal.setProfile(gradeTotal.getGrade());
+		Long suma=0L;
+		for (Long total : gradeTotal.getTotals()) {
+			suma=suma+total;
+		}
+		gradeTotal.getTotals().add(0, suma);
+		profileTotal.setTotals(gradeTotal.getTotals());
+		profileTotalList.add(profileTotal);
+		
+	} 
+	return profileTotalList;	
+}
+
 @Override
 public List<ProfileGroup> findAllProfile(String id) {		
 					
@@ -298,8 +319,8 @@ public List<ProfileGroup> findAllProfile(String id) {
 		  return architectsAndSEIntegrationAndApis(findByTypeAndSubtype, listAll);
 	  case "Pyramid Grade-Rol":
 		  return pyramid(findByTypeAndSubtype, listAll);
-	  case "All":
-		  return all(findByTypeAndSubtype, listAll);
+//	  case "All":
+//		  return all(findByTypeAndSubtype, listAll);
 	  default:
 		  System.out.println("entrada no válida");
 		  //TODO lanzar exception
