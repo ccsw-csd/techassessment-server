@@ -1,6 +1,7 @@
 package com.ccsw.dashboard.profile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.ccsw.dashboard.config.literal.LiteralService;
 import com.ccsw.dashboard.config.literal.model.Literal;
 import com.ccsw.dashboard.graderole.GradeRoleService;
 import com.ccsw.dashboard.graderole.model.GradeRole;
+import com.ccsw.dashboard.graderole.model.GradeTotal;
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
@@ -46,7 +48,7 @@ public class ProfileServiceImpl implements ProfileService {
 		  case "Engagement Managers":
 			  return engagementManagersTotal(findByTypeAndSubtype, listActual);	
 		  case "Architects":
-			  return ArchitectsTotal(findByTypeAndSubtype, listActual);
+			  return architectsTotal(findByTypeAndSubtype, listActual);
 		  case "Business Analyst":
 		      return businessAnalystTotal(findByTypeAndSubtype, listActual);
 		  case "Software Engineer":			 
@@ -54,9 +56,13 @@ public class ProfileServiceImpl implements ProfileService {
 		  case "Industry Experts":			     	
 		      return industryExpertsTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Custom Apps Development":
-			  return ArchitectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll);
+			  return architectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Integration & APIs":
-			  return ArchitectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
+			  return architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
+		  case "Pyramid Grade-Rol":
+			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals());
+		  case "All":
+			  return allTotal(findByTypeAndSubtype, listAll);
 		  default:
 			  System.out.println("entrada no válida");
 			  //TODO lanzar exception
@@ -93,7 +99,7 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileTotalList;
 	}
 	
-	private List<ProfileTotal> ArchitectsTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {
+	private List<ProfileTotal> architectsTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {
 		
 		List<ProfileTotal> profileTotalList = new ArrayList<>();		
 		for (Literal literal : findByTypeAndSubtype) {
@@ -141,6 +147,21 @@ private List<ProfileTotal> softwareEngineerTotal(List<Literal> findByTypeAndSubt
 		return profileTotalList;
 	}
 
+private List<ProfileTotal> allTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {
+	
+	List<ProfileTotal> profileTotalList = new ArrayList<>();		
+	for (Literal literal : findByTypeAndSubtype) {
+		ArrayList<Long> totals = new ArrayList<Long>();
+		totals.add(Long.valueOf(list.size()));
+		ProfileTotal profileTotal = new ProfileTotal();
+		profileTotal.setProfile(literal.getDesc());
+		profileTotal.setTotals(totals);			
+		profileTotalList.add(profileTotal);			
+	}		
+	
+	return profileTotalList;
+}
+
 private List<ProfileTotal> industryExpertsTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {	
 	
 	List<ProfileTotal> profileTotalList = new ArrayList<>();
@@ -177,7 +198,7 @@ private List<ProfileTotal> industryExpertsTotal(List<Literal> findByTypeAndSubty
 	return profileTotalList;
 }
 
-private List<ProfileTotal> ArchitectsAndSECustomAppsDevelopmentTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {	
+private List<ProfileTotal> architectsAndSECustomAppsDevelopmentTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {	
 	
 	List<ProfileTotal> profileTotalList = new ArrayList<>();	
 	for (int i = 0; i < findByTypeAndSubtype.toArray().length; i++) {
@@ -228,7 +249,7 @@ private List<ProfileTotal> ArchitectsAndSECustomAppsDevelopmentTotal(List<Litera
 	return profileTotalList;
 }
 
-private List<ProfileTotal> ArchitectsAndSEIntegrationAndApisTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {	
+private List<ProfileTotal> architectsAndSEIntegrationAndApisTotal(List<Literal> findByTypeAndSubtype, List<Profile> list) {	
 	
 	List<ProfileTotal> profileTotalList = new ArrayList<>();
 	for (int i = 0; i < findByTypeAndSubtype.toArray().length; i++) {
@@ -257,6 +278,24 @@ private List<ProfileTotal> ArchitectsAndSEIntegrationAndApisTotal(List<Literal> 
 	return profileTotalList;	
 }
 
+private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {	
+	
+	List<ProfileTotal> profileTotalList = new ArrayList<>();
+	for (GradeTotal gradeTotal : list) {
+		ProfileTotal profileTotal = new ProfileTotal();
+		profileTotal.setProfile(gradeTotal.getGrade());
+		Long suma=0L;
+		for (Long total : gradeTotal.getTotals()) {
+			suma=suma+total;
+		}
+		gradeTotal.getTotals().add(0, suma);
+		profileTotal.setTotals(gradeTotal.getTotals());
+		profileTotalList.add(profileTotal);
+		
+	} 
+	return profileTotalList;	
+}
+
 @Override
 public List<ProfileGroup> findAllProfile(String id) {		
 					
@@ -267,7 +306,7 @@ public List<ProfileGroup> findAllProfile(String id) {
 	  case "Engagement Managers":
 		  return engagementManagers(findByTypeAndSubtype, listActual);	
 	  case "Architects":
-		  return Architects(findByTypeAndSubtype, listActual);
+		  return architects(findByTypeAndSubtype, listActual);
 	  case "Business Analyst":
 	      return businessAnalyst(findByTypeAndSubtype, listActual);
 	  case "Software Engineer":			 
@@ -279,7 +318,9 @@ public List<ProfileGroup> findAllProfile(String id) {
 	  case "Architects & SE Integration & APIs":
 		  return architectsAndSEIntegrationAndApis(findByTypeAndSubtype, listAll);
 	  case "Pyramid Grade-Rol":
-//		  return pyramid(findByTypeAndSubtype, listAll);
+		  return pyramid(findByTypeAndSubtype, listAll);
+//	  case "All":
+//		  return all(findByTypeAndSubtype, listAll);
 	  default:
 		  System.out.println("entrada no válida");
 		  //TODO lanzar exception
@@ -308,7 +349,7 @@ private List<ProfileGroup> engagementManagers(List<Literal> findByTypeAndSubtype
 	return profileList;
 }
 
-private List<ProfileGroup> Architects(List<Literal> findByTypeAndSubtype, List<Profile> list) {
+private List<ProfileGroup> architects(List<Literal> findByTypeAndSubtype, List<Profile> list) {
 	
 	List<ProfileGroup> profileList = new ArrayList<>();		
 	for (Literal literal : findByTypeAndSubtype) {
@@ -359,6 +400,9 @@ private List<ProfileGroup> industryExperts(List<Literal> findByTypeAndSubtype, L
 		listIndustryExperts.addAll(list.stream().filter(p->p.getSectorExperiencia().contains("Public Sector")).toList());
 		listIndustryExperts.addAll(list.stream().filter(p->p.getSectorExperiencia().contains("Telco, Media & Technologies")).toList());
 		listIndustryExperts.addAll(list.stream().filter(p->p.getSectorExperiencia().contains("Financial Services")).toList());
+		HashSet<Profile> hashSet = new HashSet<Profile>(listIndustryExperts);
+		listIndustryExperts.clear();
+		listIndustryExperts.addAll(hashSet);
 		ProfileGroup profileGroup = new ProfileGroup();
 		profileGroup.setGroup(literal.getDesc());
 		profileGroup.setProfile(listIndustryExperts);
@@ -418,6 +462,18 @@ private List<ProfileGroup> pyramid(List<Literal> findByTypeAndSubtype, List<Prof
 		}
 	}	
 	return profileList;	
+}
+
+private List<ProfileGroup> all(List<Literal> findByTypeAndSubtype, List<Profile> list) {
+	
+	List<ProfileGroup> profileList = new ArrayList<>();		
+	for (Literal literal : findByTypeAndSubtype) {
+		ProfileGroup profileGroup = new ProfileGroup();
+		profileGroup.setGroup(literal.getDesc());
+		profileGroup.setProfile(list);
+		profileList.add(profileGroup);
+	}	
+	return profileList;
 }
 
 

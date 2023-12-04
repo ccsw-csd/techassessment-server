@@ -40,25 +40,31 @@ public class ProfileController {
     	return this.profileService.findAllProfileTotals(id);
     }
     
-//    @RequestMapping(path = "/profiletotals/{id}/csv", method = RequestMethod.GET)
-//    public void findAllProfileTotalsCsv(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
-//    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id));
-//    	exportService.writeProfileTotalsToCsv(id, servletResponse);
-//    	//new ExportServiceImpl(this.profileService.findAllProfileTotals(id), null).writeProfileTotalsToCsv(id, servletResponse);
-//    }
+    /*
+    @RequestMapping(path = "/profiletotals/{id}/csv", method = RequestMethod.GET)
+    public void findAllProfileTotalsCsv(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
+    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id));
+    	exportService.writeProfileTotalsToCsv(id, servletResponse);
+    	//new ExportServiceImpl(this.profileService.findAllProfileTotals(id), null).writeProfileTotalsToCsv(id, servletResponse);
+    }
+    */
     
     @RequestMapping(path = "/profiletotals/{id}/excel", method = RequestMethod.GET)
     public void findAllProfileTotalsExcel(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
     	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id));
     	exportService.writeProfileTotalsToExcel(id, servletResponse);
-    	//new ExportServiceImpl(this.profileService.findAllProfileTotals(id), null).writeProfileTotalsToExcel(id, servletResponse);
     }
     
     @RequestMapping(path = "/profilelist/{id}/excel", method = RequestMethod.GET)
     public void findAllProfileExcel(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
     	exportService.setProfileGroup(this.profileService.findAllProfile(id));
     	exportService.writeProfileToExcel(id, servletResponse);
-    	//new ExportServiceImpl(null, this.profileService.findAllProfile(id)).writeProfileToExcel(id, servletResponse);
+    }
+    
+    @RequestMapping(path = "/profilelist/{id}/xls", method = RequestMethod.GET)
+    public void findAllProfileXls(HttpServletResponse servletResponse, @PathVariable String id) throws IOException{
+    	exportService.setProfileGroup(this.profileService.findAllProfile(id));
+    	exportService.writeProfileToTemplateExcel(id, servletResponse);
     }
     
 }

@@ -20,4 +20,6 @@ public interface ExportService {
 
 	void setProfileTotals(List<ProfileTotal> profileTotals);
 
+	void writeProfileToTemplateExcel(String id, HttpServletResponse servletResponse) throws IOException;
+
 }
