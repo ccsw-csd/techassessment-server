@@ -319,8 +319,8 @@ public List<ProfileGroup> findAllProfile(String id) {
 		  return architectsAndSEIntegrationAndApis(findByTypeAndSubtype, listAll);
 	  case "Pyramid Grade-Rol":
 		  return pyramid(findByTypeAndSubtype, listAll);
-//	  case "All":
-//		  return all(findByTypeAndSubtype, listAll);
+	  case "All Profiles":
+		  return allProfiles(findByTypeAndSubtype, listAll);
 	  default:
 		  System.out.println("entrada no válida");
 		  //TODO lanzar exception
@@ -464,7 +464,7 @@ private List<ProfileGroup> pyramid(List<Literal> findByTypeAndSubtype, List<Prof
 	return profileList;	
 }
 
-private List<ProfileGroup> all(List<Literal> findByTypeAndSubtype, List<Profile> list) {
+private List<ProfileGroup> allProfiles(List<Literal> findByTypeAndSubtype, List<Profile> list) {
 	
 	List<ProfileGroup> profileList = new ArrayList<>();		
 	for (Literal literal : findByTypeAndSubtype) {
