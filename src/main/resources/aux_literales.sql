@@ -1,6 +1,6 @@
 /*
 -- Query: SELECT * FROM dashboard.aux_literales
--- Date: 2023-11-29 15:57
+-- Date: 2023-12-13 17:09
 */
 INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (28,'Engagement Managers','t',0,'TOTAL #EM of the unit + specific focus on #EM with experience in Complex Solutions  engagements +specific focus on #EM with effective Agile and Product Centric experience +#certified EM');
 INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (29,'Engagement Managers','c',1,'Engagement Managers');
@@ -99,6 +99,4 @@ INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (190,'Exc
 INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (191,'Excel Detail','d',17,'Cloud Native - Experiencia');
 INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (192,'Excel Detail','d',18,'Low Code - Experiencia');
 INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (193,'Excel Detail','d',19,'Sector - Experiencia');
-INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (194,'All','r',1,'TOTAL');
-INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (195,'All','c',1,'#Perfiles');
-INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (196,'All','t',1,'TOTAL #Architects #BusinessAnalysts #Software Engineers #EM of the unit');
+INSERT INTO `` (`id`,`vc_type`,`vc_subtype`,`vc_ord`,`vc_desc`) VALUES (194,'All Profiles','r',1,'');
