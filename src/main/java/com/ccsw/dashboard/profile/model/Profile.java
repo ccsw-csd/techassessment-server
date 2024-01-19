@@ -66,7 +66,13 @@ public class Profile {
     
     @Column(name="vc_Profile_Sector_Experiencia")
     private String sectorExperiencia;
-
+    
+    @Column(name="id_Import")
+    private int idImport;
+    
+    @Column(name="id_Import_staffing")
+    private int idImportStaffing;
+    
     public int getId() {
 		return id;
 	}
@@ -226,5 +232,21 @@ public class Profile {
 	public void setSectorExperiencia(String sectorExperiencia) {
 		this.sectorExperiencia = sectorExperiencia;
 	}
+
+	public int getIdImport() {
+		return idImport;
+	}
+
+	public void setIdImport(int idImport) {
+		this.idImport = idImport;
+	}
+
+	public int getIdImportStaffing() {		
+		return idImportStaffing;
+	}
+
+	public void setIdImportStaffing(int idImportStaffing) {
+		this.idImportStaffing = idImportStaffing;
+	}	
 	
 }
