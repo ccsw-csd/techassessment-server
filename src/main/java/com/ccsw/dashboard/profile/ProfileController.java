@@ -32,8 +32,8 @@ public class ProfileController {
     DozerBeanMapper mapper;
 
     @RequestMapping(path = "/db", method = RequestMethod.GET)
-    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idImport", required = true) int idImport) {
-        return this.profileService.findAll(idImport).stream().collect(Collectors.groupingBy(Profile::getActual, Collectors.groupingBy(Profile::getPerfil, Collectors.counting())));
+    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idReport", required = true) int idReport) {
+        return this.profileService.findAll(idReport).stream().collect(Collectors.groupingBy(Profile::getActual, Collectors.groupingBy(Profile::getPerfil, Collectors.counting())));
     }
     
     @RequestMapping(path = "/profiletotals/{id}", method = RequestMethod.GET)

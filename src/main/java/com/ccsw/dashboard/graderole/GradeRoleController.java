@@ -30,19 +30,19 @@ public class GradeRoleController {
     DozerBeanMapper mapper;
 
     @RequestMapping(path = "/db", method = RequestMethod.GET)
-    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idImport", required = true) int idImport) {
-        return this.gradeRoleService.findAll(idImport).stream().collect(Collectors.groupingBy(GradeRole::getGrade, Collectors.groupingBy(GradeRole::getRole, Collectors.counting())));
+    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idReport", required = true) int idReport) {
+        return this.gradeRoleService.findAll(idReport).stream().collect(Collectors.groupingBy(GradeRole::getGrade, Collectors.groupingBy(GradeRole::getRole, Collectors.counting())));
     }
     
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<GradeRoleTotal> findAll(@RequestParam(value = "idImport", required = true) int idImport) {
-        return this.gradeRoleService.findAlll(idImport);
+    public List<GradeRoleTotal> findAll(@RequestParam(value = "idReport", required = true) int idReport) {
+        return this.gradeRoleService.findAlll(idReport);
     }
     
    
     @RequestMapping(path = "/objects", method = RequestMethod.GET)
-    public List<GradeRoleTotalDto> findAlll(@RequestParam(value = "idImport", required = true) int idImport) {
-    	List<GradeRoleTotal> GradeRoleTotalList = this.gradeRoleService.findAlll(idImport);
+    public List<GradeRoleTotalDto> findAlll(@RequestParam(value = "idReport", required = true) int idReport) {
+    	List<GradeRoleTotal> GradeRoleTotalList = this.gradeRoleService.findAlll(idReport);
 		List<GradeDto> grades = this.gradeRoleService.getGrades().stream().map(g -> mapper.map(g, GradeDto.class)).toList();
 		List<RoleDto> roles = gradeRoleService.getRoles().stream().map(g -> mapper.map(g, RoleDto.class)).toList();
 		List<GradeRoleTotalDto> gradeRolListDto = new ArrayList<GradeRoleTotalDto>();		
@@ -56,8 +56,8 @@ public class GradeRoleController {
     }    
     
     @RequestMapping(path = "/gradetotals", method = RequestMethod.GET)
-    public List<GradeTotal> findAllGradeTotals(@RequestParam(value = "idImport", required = true) int idImport) {
-    	return this.gradeRoleService.findAllGradeTotals(idImport);
+    public List<GradeTotal> findAllGradeTotals(@RequestParam(value = "idReport", required = true) int idReport) {
+    	return this.gradeRoleService.findAllGradeTotals(idReport);
     }
     
 }
