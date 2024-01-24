@@ -16,8 +16,8 @@ public class GradeRole {
     @Column(name="vc_Profile_Rol_L1")
     private String role;
     
-    @Column(name="id_Import")
-    private int idImport;
+    @Column(name="id_Import_capacidades")
+    private int idImportCapacidades;
     
     @Column(name="id_Import_staffing")
     private int idImportStaffing;
@@ -46,12 +46,12 @@ public class GradeRole {
 		this.id = id;
 	}
 
-	public int getIdImport() {
-		return idImport;
+	public int getIdImportCapacidades() {
+		return idImportCapacidades;
 	}
 
-	public void setIdImport(int idImport) {
-		this.idImport = idImport;
+	public void setIdImportCapacidades(int idImportCapacidades) {
+		this.idImportCapacidades = idImportCapacidades;
 	}
 
 	public int getIdImportStaffing() {

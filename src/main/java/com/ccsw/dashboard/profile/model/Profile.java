@@ -3,7 +3,7 @@ package com.ccsw.dashboard.profile.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tmp_export_formdata") //tmp_export_formdata  tmp_prod_formdata
+@Table(name = "tmp_export_formdata")
 public class Profile {
 	
 	@Id
@@ -67,8 +67,8 @@ public class Profile {
     @Column(name="vc_Profile_Sector_Experiencia")
     private String sectorExperiencia;
     
-    @Column(name="id_Import")
-    private int idImport;
+    @Column(name="id_Import_capacidades")
+    private int idImportCapacidades;
     
     @Column(name="id_Import_staffing")
     private int idImportStaffing;
@@ -233,12 +233,12 @@ public class Profile {
 		this.sectorExperiencia = sectorExperiencia;
 	}
 
-	public int getIdImport() {
-		return idImport;
+	public int getIdImportCapacidades() {
+		return idImportCapacidades;
 	}
 
-	public void setIdImport(int idImport) {
-		this.idImport = idImport;
+	public void setIdImportCapacidades(int idImportCapacidades) {
+		this.idImportCapacidades = idImportCapacidades;
 	}
 
 	public int getIdImportStaffing() {		

@@ -35,11 +35,9 @@ public class RoleVersionController {
     			//.map(rv->mapper.map(rv, RoleVersionDto.class))
     			.map(rv-> { 
 	    			RoleVersionDto rvdto = new RoleVersionDto();
-	    			rvdto.setIdTipoInterfaz(rv.getIdTipoInterfaz());
-	    			rvdto.setIdVersionStaffing(rv.getIdVersionStaffing());
-	    			rvdto.setLineaBase(rv.getLineaBase());
+	    			rvdto.setIdTipoInterfaz(rv.getIdTipoInterfaz());	    			
 	    			rvdto.setFechaImportacion(rv.getFechaImportacion());
-	    			rvdto.setComentarios(rv.getComentarios());
+	    			rvdto.setUsuario(rv.getUsuario());
 	    			rvdto.setDescripcion(rv.getDescripcion());
 	    			rvdto.setId(rv.getId());
 	    			rvdto.setNombreFichero(rv.getNombreFichero());

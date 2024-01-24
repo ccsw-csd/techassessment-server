@@ -18,13 +18,7 @@ public class RoleVersion  implements Comparable<RoleVersion>{
 	private int id;
 	
 	@Column(name="id_Tipo_interfaz", nullable = false)
-    private int idTipoInterfaz;
-	
-	@Column(name="id_Version_staffing", nullable = false)
-    private int idVersionStaffing;
-	
-	@Column(name="linea_Base", nullable = false)
-    private int lineaBase;
+    private int idTipoInterfaz;	
 
     @Column(name="importacion", nullable = false)
     private LocalDateTime fechaImportacion;
@@ -38,8 +32,8 @@ public class RoleVersion  implements Comparable<RoleVersion>{
     @Column(name="descripcion", nullable = false)
     private String descripcion;
     
-    @Column(name="comentarios", nullable = false)
-    private String comentarios;
+    @Column(name="usuario", nullable = false)
+    private String usuario;
 
 	public int getId() {
 		return id;
@@ -81,12 +75,12 @@ public class RoleVersion  implements Comparable<RoleVersion>{
 		this.descripcion = descripcion;
 	}
 
-	public String getComentarios() {
-		return comentarios;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public int getIdTipoInterfaz() {
@@ -95,22 +89,6 @@ public class RoleVersion  implements Comparable<RoleVersion>{
 
 	public void setIdTipoInterfaz(int idTipoInterfaz) {
 		this.idTipoInterfaz = idTipoInterfaz;
-	}
-
-	public int getIdVersionStaffing() {
-		return idVersionStaffing;
-	}
-
-	public void setIdVersionStaffing(int idVersionStaffing) {
-		this.idVersionStaffing = idVersionStaffing;
-	}
-
-	public int getLineaBase() {
-		return lineaBase;
-	}
-
-	public void setLineaBase(int lineaBase) {
-		this.lineaBase = lineaBase;
 	}
 
 	@Override	

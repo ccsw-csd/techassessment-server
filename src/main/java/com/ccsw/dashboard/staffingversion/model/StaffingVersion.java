@@ -32,8 +32,8 @@ public class StaffingVersion  implements Comparable<StaffingVersion>{
     @Column(name="descripcion", nullable = false)
     private String descripcion;
     
-    @Column(name="comentarios", nullable = false)
-    private String comentarios;
+    @Column(name="usuario", nullable = false)
+    private String usuario;
 
 	public int getId() {
 		return id;
@@ -67,12 +67,12 @@ public class StaffingVersion  implements Comparable<StaffingVersion>{
 		this.descripcion = descripcion;
 	}
 
-	public String getComentarios() {
-		return comentarios;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	
 	public int getIdTipoInterfaz() {

@@ -19,7 +19,7 @@ public class StaffingVersionDto {
     private int numRegistros;
     private String nombreFichero;
     private String descripcion;
-    private String comentarios;
+    private String usuario;
 
 	public int getId() {
 		return id;
@@ -53,13 +53,13 @@ public class StaffingVersionDto {
 		this.descripcion = descripcion;
 	}
 
-	public String getComentarios() {
-		return comentarios;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}	
 
 	public int getIdTipoInterfaz() {
 		return idTipoInterfaz;

@@ -15,13 +15,11 @@ public class RoleVersionDto {
 
 	private int id;
     private int idTipoInterfaz;
-    private int idVersionStaffing;
-    private int lineaBase;
     private LocalDateTime fechaImportacion;
     private int numRegistros;
     private String nombreFichero;
     private String descripcion;
-    private String comentarios;
+    private String usuario;
 
 	public int getId() {
 		return id;
@@ -64,11 +62,11 @@ public class RoleVersionDto {
 	}
 
 	public String getComentarios() {
-		return comentarios;
+		return usuario;
 	}
 
 	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+		this.usuario = comentarios;
 	}
 
 	public int getIdTipoInterfaz() {
@@ -79,19 +77,11 @@ public class RoleVersionDto {
 		this.idTipoInterfaz = idTipoInterfaz;
 	}
 
-	public int getIdVersionStaffing() {
-		return idVersionStaffing;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setIdVersionStaffing(int idVersionStaffing) {
-		this.idVersionStaffing = idVersionStaffing;
-	}
-
-	public int getLineaBase() {
-		return lineaBase;
-	}
-
-	public void setLineaBase(int lineaBase) {
-		this.lineaBase = lineaBase;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}	
 }
