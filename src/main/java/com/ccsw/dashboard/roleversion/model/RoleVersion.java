@@ -20,7 +20,7 @@ public class RoleVersion  implements Comparable<RoleVersion>{
 	@Column(name="id_Tipo_interfaz", nullable = false)
     private int idTipoInterfaz;	
 
-    @Column(name="importacion", nullable = false)
+    @Column(name="fecha_Importacion", nullable = false)
     private LocalDateTime fechaImportacion;
     
     @Column(name="num_Registros", nullable = false)
