@@ -38,7 +38,7 @@ public class StaffingVersionController {
     			.map(sv-> { 
     				StaffingVersionDto svdto = new StaffingVersionDto();
 	    			svdto.setFechaImportacion(sv.getFechaImportacion());
-	    			svdto.setComentarios(sv.getComentarios());
+	    			svdto.setUsuario(sv.getUsuario());
 	    			svdto.setDescripcion(sv.getDescripcion());
 	    			svdto.setId(sv.getId());
 	    			svdto.setNombreFichero(sv.getNombreFichero());

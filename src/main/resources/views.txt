@@ -4,17 +4,15 @@ CREATE
     SQL SECURITY DEFINER
 VIEW `tmp_export_formdata` AS
     SELECT 
-        `form`.`Id` AS `Id`,
+        `form`.`Id` AS `id`,
         (CASE
             WHEN ISNULL(`form`.`num_Import_CodeId`) THEN 0
             ELSE `form`.`num_Import_CodeId`
-        END) AS `id_Import`,
+        END) AS `id_Import_capacidades`,
         (CASE
             WHEN ISNULL(`staffing`.`num_Import_CodeId`) THEN 0
             ELSE `staffing`.`num_Import_CodeId`
         END) AS `id_Import_staffing`,
-        COALESCE(DATE_FORMAT(`ci`.`date_FechaImportacion`, '%d-%m-%Y'),
-                '') AS `date_Import`,
         COALESCE(`staffing`.`vc_Profile_GGID`, '') AS `vc_Profile_Staffing_GGID`,
         `form`.`vc_Profile_SAGA` AS `vc_Profile_SAGA`,
         `form`.`vc_Profile_Rol_L1` AS `vc_Profile_Rol_Actual`,
@@ -68,11 +66,11 @@ VIEW `tmp_export_formdata` AS
         COALESCE(`staffing`.`vc_Profile_Perfil_Tecnico`,
                 '') AS `vc_Profile_Staffing_Perfil_Tecnico`
     FROM
-        ((`dm_formdata_import` `form`
-        LEFT JOIN `dm_staffing_import` `staffing` ON ((`form`.`vc_Profile_SAGA` = `staffing`.`vc_Profile_SAGA`)))
-        LEFT JOIN `control_importaciones` `ci` ON ((`form`.`num_Import_CodeId` = `ci`.`num_Import_CodeId`)))        
+        (`dm_formdata_import` `form`
+        LEFT JOIN `dm_staffing_import` `staffing` ON ((`form`.`vc_Profile_SAGA` = `staffing`.`vc_Profile_SAGA`)))     
             
-    CREATE 
+
+CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `dashboard`@`%` 
     SQL SECURITY DEFINER
@@ -85,7 +83,7 @@ VIEW `vista_grados_roles` AS
         (CASE
             WHEN ISNULL(`fr`.`num_Import_CodeId`) THEN 0
             ELSE `fr`.`num_Import_CodeId`
-        END) AS `id_Import`,
+        END) AS `id_Import_capacidades`,
         (CASE
             WHEN ISNULL(`sg`.`num_Import_CodeId`) THEN 0
             ELSE `sg`.`num_Import_CodeId`

@@ -17,6 +17,8 @@ import com.ccsw.dashboard.graderole.model.GradeTotal;
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
+import com.ccsw.dashboard.reportversion.ReportVersionService;
+import com.ccsw.dashboard.reportversion.model.ReportVersion;
 import com.ccsw.dashboard.roleversion.RoleVersionService;
 import com.ccsw.dashboard.roleversion.model.RoleVersion;
 
@@ -37,18 +39,20 @@ public class ProfileServiceImpl implements ProfileService {
     private GradeRoleService gradeRoleService;
     
     @Autowired
-    private RoleVersionService roleVersionService;
+    private ReportVersionService reportVersionService;
     
     @Override
-    public List<Profile> findAll(int idImport) {
-    	RoleVersion rv = roleVersionService.findById(Long.valueOf(idImport));
-        return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImport()==idImport).filter(p->p.getIdImportStaffing()==rv.getIdVersionStaffing()).toList();
+    public List<Profile> findAll(int idReport) {
+    	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
+        return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
+        		.filter(p->p.getIdImportStaffing()==rv.getIdVersionStaffing())
+        		.toList();
     }
     
 	@Override
-	public List<ProfileTotal> findAllProfileTotals(String id, int idImport) {		
+	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
-		List<Profile> listAll = this.findAll(idImport);
+		List<Profile> listAll = this.findAll(idReport);
 		List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
 		List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 		switch (id) {
@@ -67,7 +71,7 @@ public class ProfileServiceImpl implements ProfileService {
 		  case "Architects & SE Integration & APIs":
 			  return architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
 		  case "Pyramid Grade-Rol":
-			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals(idImport));
+			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals(idReport));
 		  case "All":
 			  return allTotal(findByTypeAndSubtype, listAll);
 		  default:
@@ -302,9 +306,9 @@ private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {
 }
 
 @Override
-public List<ProfileGroup> findAllProfile(String id, int idImport) {		
+public List<ProfileGroup> findAllProfile(String id, int idReport) {		
 					
-	List<Profile> listAll = this.profileRepository.findAll().stream().filter(p->p.getIdImport()==idImport).toList();
+	List<Profile> listAll = this.findAll(idReport);
 	List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
 	List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 	switch (id) {
@@ -323,7 +327,7 @@ public List<ProfileGroup> findAllProfile(String id, int idImport) {
 	  case "Architects & SE Integration & APIs":
 		  return architectsAndSEIntegrationAndApis(findByTypeAndSubtype, listAll);
 	  case "Pyramid Grade-Rol":
-		  return pyramid(findByTypeAndSubtype, listAll, idImport);
+		  return pyramid(findByTypeAndSubtype, listAll, idReport);
 	  case "All Profiles":
 		  return allProfiles(findByTypeAndSubtype, listAll);
 	  default:

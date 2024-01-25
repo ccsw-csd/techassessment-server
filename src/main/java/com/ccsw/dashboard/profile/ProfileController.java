@@ -32,43 +32,43 @@ public class ProfileController {
     DozerBeanMapper mapper;
 
     @RequestMapping(path = "/db", method = RequestMethod.GET)
-    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idImport", required = true) int idImport) {
-        return this.profileService.findAll(idImport).stream().collect(Collectors.groupingBy(Profile::getActual, Collectors.groupingBy(Profile::getPerfil, Collectors.counting())));
+    public Map<String, Map<String, Long>> findAllDb(@RequestParam(value = "idReport", required = true) int idReport) {
+        return this.profileService.findAll(idReport).stream().collect(Collectors.groupingBy(Profile::getActual, Collectors.groupingBy(Profile::getPerfil, Collectors.counting())));
     }
     
     @RequestMapping(path = "/profiletotals/{id}", method = RequestMethod.GET)
     public List<ProfileTotal> findAllProfileTotals(@PathVariable String id, 
-    		@RequestParam(value = "idImport", required = true) int idImport) {    	 	
-    	return this.profileService.findAllProfileTotals(id, idImport);
+    		@RequestParam(value = "idReport", required = true) int idReport) {    	 	
+    	return this.profileService.findAllProfileTotals(id, idReport);
     }
     
 
     @RequestMapping(path = "/profiletotals/{id}/csv", method = RequestMethod.GET)
     public void findAllProfileTotalsCsv(HttpServletResponse servletResponse, @PathVariable String id, 
-    		@RequestParam(value = "idImport", required = true) int idImport) throws IOException {
-    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id, idImport));
+    		@RequestParam(value = "idReport", required = true) int idReport) throws IOException {
+    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id, idReport));
     	exportService.writeProfileTotalsToCsv(id, servletResponse);
     }
 
     
     @RequestMapping(path = "/profiletotals/{id}/excel", method = RequestMethod.GET)
     public void findAllProfileTotalsExcel(HttpServletResponse servletResponse, @PathVariable String id, 
-    		@RequestParam(value = "idImport", required = true) int idImport) throws IOException {
-    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id, idImport));
+    		@RequestParam(value = "idReport", required = true) int idReport) throws IOException {
+    	exportService.setProfileTotals(this.profileService.findAllProfileTotals(id, idReport));
     	exportService.writeProfileTotalsToExcel(id, servletResponse);
     }
     
     @RequestMapping(path = "/profilelist/{id}/excel", method = RequestMethod.GET)
     public void findAllProfileExcel(HttpServletResponse servletResponse, @PathVariable String id, 
-    		@RequestParam(value = "idImport", required = true) int idImport) throws IOException {
-    	exportService.setProfileGroup(this.profileService.findAllProfile(id, idImport));
+    		@RequestParam(value = "idReport", required = true) int idReport) throws IOException {
+    	exportService.setProfileGroup(this.profileService.findAllProfile(id, idReport));
     	exportService.writeProfileToExcel(id, servletResponse);
     }
     
     @RequestMapping(path = "/profilelist/{id}/xls", method = RequestMethod.GET)
     public void findAllProfileXls(HttpServletResponse servletResponse, @PathVariable String id, 
-    		@RequestParam(value = "idImport", required = true) int idImport)  throws IOException {
-    	exportService.setProfileGroup(this.profileService.findAllProfile(id, idImport));
+    		@RequestParam(value = "idReport", required = true) int idReport)  throws IOException {
+    	exportService.setProfileGroup(this.profileService.findAllProfile(id, idReport));
     	exportService.writeProfileToTemplateExcel(id, servletResponse);
     }
     
