@@ -26,19 +26,19 @@ public class ReportVersion  implements Comparable<ReportVersion>{
 	@Column(name="screenshot", nullable = false)
     private int screenshot;
 	
-    @Column(name="fecha_Importacion", nullable = false)
+    @Column(name="fecha_Importacion", nullable = true)
     private LocalDateTime fechaImportacion;
 
-    @Column(name="descripcion", nullable = false)
+    @Column(name="descripcion", nullable = true)
     private String descripcion;
     
-    @Column(name="usuario", nullable = false)
+    @Column(name="usuario", nullable = true)
     private String usuario;
     
-    @Column(name="fecha_Modificacion", nullable = false)
+    @Column(name="fecha_Modificacion", nullable = true)
     private LocalDateTime fechaModificacion;
     
-    @Column(name="comentarios", nullable = false)
+    @Column(name="comentarios", nullable = true)
     private String comentarios;
 
 	public int getId() {

@@ -10,11 +10,17 @@ import com.ccsw.dashboard.exception.MyBadAdviceException;
 import com.ccsw.dashboard.reportversion.model.ReportVersion;
 import com.ccsw.dashboard.reportversion.model.ReportVersionDto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TimeZone;
 
 @Service
 @Transactional
@@ -53,11 +59,17 @@ public class ReportVersionServiceImpl implements ReportVersionService{
 	@Override
 	public void save(Long id, ReportVersionDto dto) {
 		ReportVersion reportVersion;      
-        reportVersion = this.findByIdVersionCapacidades(id);       
-        if (reportVersion == null)
+        reportVersion = this.findById(id);       
+        if (reportVersion == null && id != 0)
             throw new MyBadAdviceException("reportVersion id doesn't exist");
 
-        BeanUtils.copyProperties(dto, reportVersion, "id");
+        if (reportVersion.getScreenshot() != dto.getScreenshot()) {
+        	reportVersion.setUsuario(dto.getUsuario());
+        	LocalDate ld = LocalDate.now();
+            LocalTime lt = LocalTime.now();
+        	reportVersion.setFechaModificacion(LocalDateTime.of(ld, lt));
+        }
+        BeanUtils.copyProperties(dto, reportVersion, "usuario", "fechaModificacion", "idVersionCapacidades", "idVersionStaffing", "fechaImportacion", "descripcion");
         //roleVersion.setFechaimportacion(dto.getFechaImportacion());
         this.reportVersionRepository.save(reportVersion);
 		
