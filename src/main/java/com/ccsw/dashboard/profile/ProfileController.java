@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
+import com.ccsw.dashboard.profile.model.ProfileTotalsCombined;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -40,6 +41,12 @@ public class ProfileController {
     public List<ProfileTotal> findAllProfileTotals(@PathVariable String id, 
     		@RequestParam(value = "idReport", required = true) int idReport) {    	 	
     	return this.profileService.findAllProfileTotals(id, idReport);
+    }
+    
+    @RequestMapping(path = "/profiletotalstogether/{id}", method = RequestMethod.GET)
+    public ProfileTotalsCombined findAllProfileTotalsTogether(@PathVariable List<String> id, 
+    		@RequestParam(value = "idReport", required = true) int idReport) {    	 	
+    	return this.profileService.findAllProfileTotalsTogether(id, idReport);
     }
     
 
