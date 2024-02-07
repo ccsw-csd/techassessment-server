@@ -17,7 +17,7 @@ import com.ccsw.dashboard.graderole.model.GradeTotal;
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
-import com.ccsw.dashboard.profile.model.ProfileTotalsCombined;
+import com.ccsw.dashboard.profile.model.InformeRoles;
 import com.ccsw.dashboard.reportversion.ReportVersionService;
 import com.ccsw.dashboard.reportversion.model.ReportVersion;
 import com.ccsw.dashboard.roleversion.RoleVersionService;
@@ -60,64 +60,26 @@ public class ProfileServiceImpl implements ProfileService {
     	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffingAndActual(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing(), actual).stream()
         		.toList();
     }
-    /*
+    
 	@Override
-	public ProfileTotalsCombined findAllProfileTotalsTogether(List<String> idList, int idReport) {		
+	public InformeRoles findAllInformeRoles(List<String> idList, int idReport) {		
 		
-		ProfileTotalsCombined together = new ProfileTotalsCombined();
+		InformeRoles informeRoles = new InformeRoles();
 		List<List<ProfileTotal>> profileTotalListGroup = new ArrayList<List<ProfileTotal>>();
-		
-		List<Profile> listAll = this.findAll(idReport);
-		//List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
-		List<Profile> listActual;
-		List<Literal> findByTypeAndSubtype;
-		for (String currentId : idList) {
-			listActual = findAllActual(currentId, idReport);
-			findByTypeAndSubtype = literalService.findByTypeAndSubtype(currentId, "r");
-			switch (currentId) {
-			  case "Engagement Managers":
-				  profileTotalListGroup.add(engagementManagersTotal(findByTypeAndSubtype, listActual)) ;	
-			  case "Architects":
-				  profileTotalListGroup.add(architectsTotal(findByTypeAndSubtype, listActual));
-			  case "Business Analyst":
-				  profileTotalListGroup.add(businessAnalystTotal(findByTypeAndSubtype, listActual));
-			  case "Software Engineer":			 
-				  profileTotalListGroup.add(softwareEngineerTotal(findByTypeAndSubtype, listActual));
-			  case "Industry Experts":			     	
-				  profileTotalListGroup.add(industryExpertsTotal(findByTypeAndSubtype, listAll));
-			  case "Architects & SE Custom Apps Development":
-				  profileTotalListGroup.add(architectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll));
-			  case "Architects & SE Integration & APIs":
-				  profileTotalListGroup.add(architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll));
-			  case "Pyramid Grade-Rol":
-				  profileTotalListGroup.add(pyramidTotal(this.gradeRoleService.findAllGradeTotals(idReport)));
-			  case "All":
-				  profileTotalListGroup.add(allTotal(findByTypeAndSubtype, listAll));
-			  default:
-				 throw new MyBadAdviceException("entrada no válida");
-			}
-			}
-		together.setProfileTotal(profileTotalListGroup);
-		return together;
-	}
-    */
-	@Override
-	public ProfileTotalsCombined findAllProfileTotalsTogether(List<String> idList, int idReport) {		
-		
-		ProfileTotalsCombined together = new ProfileTotalsCombined();
-		List<List<ProfileTotal>> profileTotalListGroup = new ArrayList<List<ProfileTotal>>();
+		List<GradeTotal> gradeTotal = new ArrayList<GradeTotal>();
 		for (String currentId : idList) {
 			profileTotalListGroup.add(findAllProfileTotals(currentId, idReport));
 			}
-		together.setProfileTotal(profileTotalListGroup);
-		return together;
+		gradeTotal = gradeRoleService.findAllGradeTotals(idReport);
+		informeRoles.setProfileTotal(profileTotalListGroup);
+		informeRoles.setGradeTotal(gradeTotal);
+		return informeRoles;
 	}
 	
 	@Override
 	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
 		List<Profile> listAll = this.findAll(idReport);
-		//List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
 		List<Profile> listActual = findAllActual(id, idReport);
 		List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 		switch (id) {
@@ -374,7 +336,6 @@ private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {
 public List<ProfileGroup> findAllProfile(String id, int idReport) {		
 					
 	List<Profile> listAll = this.findAll(idReport);
-	//List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
 	List<Profile> listActual = findAllActual(id, idReport);
 	List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 	switch (id) {
