@@ -18,5 +18,9 @@ public interface ProfileRepository extends CrudRepository<Profile, Long>, JpaRep
 
 	List <Profile> findAllByActual(String actual);
 	List <Profile> findAllByActualAndPerfil(String actual, String perfil);
+	List <Profile> findAllByIdImportCapacidades(int idImportCapacidades);
+	List <Profile> findAllByIdImportStaffing(int idImportStaffing);
+	List <Profile> findAllByIdImportCapacidadesAndIdImportStaffing(int idImportCapacidades, int idImportStaffing);
+	List <Profile> findAllByIdImportCapacidadesAndIdImportStaffingAndActual(int idImportCapacidades, int idImportStaffing, String actual);
 
 }

@@ -2,7 +2,6 @@ package com.ccsw.dashboard.profile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
 import com.ccsw.dashboard.reportversion.ReportVersionService;
 import com.ccsw.dashboard.reportversion.model.ReportVersion;
-import com.ccsw.dashboard.roleversion.RoleVersionService;
-import com.ccsw.dashboard.roleversion.model.RoleVersion;
 
 import jakarta.transaction.Transactional;
 
@@ -44,16 +41,21 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<Profile> findAll(int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
-        return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
-        		.filter(p->p.getIdImportStaffing()==rv.getIdVersionStaffing())
+    	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffing(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing()).stream()
         		.toList();
     }
     
+    public List<Profile> findAllActual(String actual, int idReport) {
+    	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
+    	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffingAndActual(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing(), actual).stream()
+        		.toList();
+    }
+
 	@Override
 	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
 		List<Profile> listAll = this.findAll(idReport);
-		List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
+		List<Profile> listActual = findAllActual(id, idReport);
 		List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 		switch (id) {
 		  case "Engagement Managers":
@@ -309,7 +311,7 @@ private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {
 public List<ProfileGroup> findAllProfile(String id, int idReport) {		
 					
 	List<Profile> listAll = this.findAll(idReport);
-	List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
+	List<Profile> listActual = findAllActual(id, idReport);
 	List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 	switch (id) {
 	  case "Engagement Managers":
