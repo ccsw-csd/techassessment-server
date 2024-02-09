@@ -43,10 +43,9 @@ public class ProfileController {
     	return this.profileService.findAllProfileTotals(id, idReport);
     }
     
-    @RequestMapping(path = "/informeRoles/{id}", method = RequestMethod.GET)
-    public InformeRoles findAllInformeRoles(@PathVariable List<String> id, 
-    		@RequestParam(value = "idReport", required = true) int idReport) {    	 	
-    	return this.profileService.findAllInformeRoles(id, idReport);
+    @RequestMapping(path = "/informeRoles", method = RequestMethod.GET)
+    public InformeRoles findAllInformeRoles(@RequestParam(value = "idReport", required = true) int idReport) {    	 	
+    	return this.profileService.findAllInformeRoles(idReport);
     }
     
 
