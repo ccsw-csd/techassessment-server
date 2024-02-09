@@ -54,6 +54,11 @@ public class ReportVersionController {
         return this.reportVersionService.findByIdVersionCapacidades(Long.valueOf(id));     
     }
     
+    @RequestMapping(path = "/screenshot/{screenshot}", method = RequestMethod.GET)
+    public List<ReportVersion> findByScreenshotNum(@PathVariable(name = "screenshot", required = false) String screenshot){
+        return this.reportVersionService.findByScreenshot(screenshot);     
+    }
+    
     @RequestMapping(path = "/years", method = RequestMethod.GET)
     public List<String> findYears(){
        return this.reportVersionService.findYears();

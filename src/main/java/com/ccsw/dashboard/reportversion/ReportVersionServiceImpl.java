@@ -39,6 +39,23 @@ public class ReportVersionServiceImpl implements ReportVersionService{
         return this.reportVersionRepository.findByIdVersionCapacidades(id).orElse(null);
     }
 
+    @Override
+    public List<ReportVersion> findByScreenshot(String id) {
+    	List<ReportVersion> repList = new ArrayList<ReportVersion>();
+        try {
+            int d = Integer.parseInt(id);
+        	if (d == 0 || d == 1) {
+        		repList = this.reportVersionRepository.findByScreenshot(id);
+                return repList;
+        	} else {
+        		return findAll();
+        	}
+        } catch (NumberFormatException nfe) {
+        	return findAll();
+        }
+
+    }
+    
 	@Override
 	public List<String> findYears() {
 		List<String> rvList = new ArrayList<String>();
@@ -78,6 +95,6 @@ public class ReportVersionServiceImpl implements ReportVersionService{
 	@Override
 	public ReportVersion findById(Long id) {
 		return reportVersionRepository.findById(id).orElse(null);
-	}	
+	}
 	    
 }
