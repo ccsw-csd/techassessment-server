@@ -15,6 +15,6 @@ public interface ReportVersionService {
 	List<String> findYears();
 	
 	void save(Long id, ReportVersionDto dto);
-	List<ReportVersion> findByScreenshot(String id);
+	List<ReportVersion> findByScreenshot(String id, String year);
 	
 }

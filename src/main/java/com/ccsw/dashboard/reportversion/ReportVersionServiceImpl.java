@@ -40,12 +40,13 @@ public class ReportVersionServiceImpl implements ReportVersionService{
     }
 
     @Override
-    public List<ReportVersion> findByScreenshot(String id) {
+    public List<ReportVersion> findByScreenshot(String id, String year) {
     	List<ReportVersion> repList = new ArrayList<ReportVersion>();
         try {
             int d = Integer.parseInt(id);
         	if (d == 0 || d == 1) {
-        		repList = this.reportVersionRepository.findByScreenshot(id);
+        		repList = this.reportVersionRepository.findByScreenshot(id).stream().filter(rv->String.valueOf(rv.getFechaImportacion().getYear()).equals(year))
+            			.toList();
                 return repList;
         	} else {
         		return findAll();
