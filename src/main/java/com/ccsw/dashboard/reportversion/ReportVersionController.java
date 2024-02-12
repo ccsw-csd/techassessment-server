@@ -56,13 +56,13 @@ public class ReportVersionController {
     }
     
     @RequestMapping(path = "/screenshot/{screenshot}", method = RequestMethod.GET)
-    public List<ReportVersion> findByScreenshotNum(@PathVariable(name = "screenshot", required = false) String screenshot, @RequestParam(value = "year", required = true) String year){
+    public List<ReportVersion> findByScreenshotNum(@PathVariable(name = "screenshot", required = true) String screenshot, @RequestParam(value = "year", required = false) String year){
         return this.reportVersionService.findByScreenshot(screenshot, year);     
     }
     
     @RequestMapping(path = "/years", method = RequestMethod.GET)
-    public List<String> findYears(){
-       return this.reportVersionService.findYears();
+    public List<String> findYears(@RequestParam(name = "screenshot", required = false) String screenshot){
+       return this.reportVersionService.findYears(screenshot);
     }
     
     @RequestMapping(path = { "/{id}" }, method = RequestMethod.PUT)

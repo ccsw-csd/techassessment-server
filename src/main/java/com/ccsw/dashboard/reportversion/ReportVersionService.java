@@ -12,7 +12,7 @@ public interface ReportVersionService {
 	List<ReportVersion> findAll();
 	ReportVersion findById(Long id);
 	ReportVersion findByIdVersionCapacidades(Long id);
-	List<String> findYears();
+	List<String> findYears(String screenshot);
 	
 	void save(Long id, ReportVersionDto dto);
 	List<ReportVersion> findByScreenshot(String id, String year);
