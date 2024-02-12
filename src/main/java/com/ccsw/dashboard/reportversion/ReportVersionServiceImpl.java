@@ -49,10 +49,10 @@ public class ReportVersionServiceImpl implements ReportVersionService{
             			.toList();
                 return repList;
         	} else {
-        		return findAll();
+        		return findAll().stream().filter(rv->String.valueOf(rv.getFechaImportacion().getYear()).equals(year)).toList();
         	}
         } catch (NumberFormatException nfe) {
-        	return findAll();
+        	return findAll().stream().filter(rv->String.valueOf(rv.getFechaImportacion().getYear()).equals(year)).toList();
         }
 
     }
