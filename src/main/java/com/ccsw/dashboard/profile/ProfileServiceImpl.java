@@ -62,16 +62,34 @@ public class ProfileServiceImpl implements ProfileService {
     }
     
 	@Override
-	public InformeRoles findAllInformeRoles(List<String> idList, int idReport) {		
+	public InformeRoles findAllInformeRoles(int idReport) {		
 		
 		InformeRoles informeRoles = new InformeRoles();
-		List<List<ProfileTotal>> profileTotalListGroup = new ArrayList<List<ProfileTotal>>();
+		List<ProfileTotal> architects = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> softwareEngineer = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> industryExperts = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> engagementManagers = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> businessAnalyst = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> architectsCustomApps = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> architectsIntegration = new ArrayList<ProfileTotal>();
 		List<GradeTotal> gradeTotal = new ArrayList<GradeTotal>();
-		for (String currentId : idList) {
-			profileTotalListGroup.add(findAllProfileTotals(currentId, idReport));
-			}
+		
+		architects = findAllProfileTotals("Architects", idReport);
+		softwareEngineer = findAllProfileTotals("Software Engineer", idReport);
+		industryExperts = findAllProfileTotals("Industry Experts", idReport);
+		engagementManagers = findAllProfileTotals("Engagement Managers", idReport);
+		businessAnalyst = findAllProfileTotals("Business Analyst", idReport);
+		architectsCustomApps = findAllProfileTotals("Architects & SE Custom Apps Development", idReport);
+		architectsIntegration = findAllProfileTotals("Architects & SE Integration & APIs", idReport);		
+		
 		gradeTotal = gradeRoleService.findAllGradeTotals(idReport);
-		informeRoles.setProfileTotal(profileTotalListGroup);
+		informeRoles.setArchitects(architects);
+		informeRoles.setSoftwareEngineer(softwareEngineer);
+		informeRoles.setIndustryExperts(industryExperts);
+		informeRoles.setEngagementManagers(engagementManagers);
+		informeRoles.setBusinessAnalyst(businessAnalyst);
+		informeRoles.setArchitectsCustomApps(architectsCustomApps);
+		informeRoles.setArchitectsIntegration(architectsIntegration);
 		informeRoles.setGradeTotal(gradeTotal);
 		return informeRoles;
 	}

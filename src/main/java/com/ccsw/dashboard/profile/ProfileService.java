@@ -13,7 +13,7 @@ public interface ProfileService {
 
 	List<Profile> findAll(int idImport);
 	List<ProfileTotal> findAllProfileTotals(String id, int idImport);
-	InformeRoles findAllInformeRoles(List<String> id, int idImport);
+	InformeRoles findAllInformeRoles(int idImport);
 	List<ProfileGroup> findAllProfile(String id, int idImport);	
 	
 }
