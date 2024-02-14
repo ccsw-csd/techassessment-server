@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.dashboard.config.literal.LiteralService;
@@ -43,6 +44,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ReportVersionService reportVersionService;
     
     @Override
+    @Cacheable("capacidadesStaffing")
     public List<Profile> findAll(int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
         /*return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
@@ -55,6 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
         		.toList();
     }
     
+    @Cacheable("capacidadesTotalesStaffing")
     public List<Profile> findAllActual(String actual, int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
     	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffingAndActual(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing(), actual).stream()
@@ -97,27 +100,35 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
-		List<Profile> listAll = this.findAll(idReport);
-		List<Profile> listActual = findAllActual(id, idReport);
+		List<Profile> listAll = new ArrayList<Profile>();
+		List<Profile> listActual = new ArrayList<Profile>();
 		List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 		switch (id) {
 		  case "Engagement Managers":
+			  listActual = findAllActual(id, idReport);
 			  return engagementManagersTotal(findByTypeAndSubtype, listActual);	
 		  case "Architects":
+			  listActual = findAllActual(id, idReport);
 			  return architectsTotal(findByTypeAndSubtype, listActual);
 		  case "Business Analyst":
+			  listActual = findAllActual(id, idReport);
 		      return businessAnalystTotal(findByTypeAndSubtype, listActual);
 		  case "Software Engineer":			 
+			  listActual = findAllActual(id, idReport);
 			  return softwareEngineerTotal(findByTypeAndSubtype, listActual);
-		  case "Industry Experts":			     	
+		  case "Industry Experts":
+			  listAll = this.findAll(idReport);
 		      return industryExpertsTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Custom Apps Development":
+			  listAll = this.findAll(idReport);
 			  return architectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Integration & APIs":
+			  listAll = this.findAll(idReport);
 			  return architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
 		  case "Pyramid Grade-Rol":
 			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals(idReport));
 		  case "All":
+			  listAll = this.findAll(idReport);
 			  return allTotal(findByTypeAndSubtype, listAll);
 		  default:
 			 throw new MyBadAdviceException("entrada no válida");
