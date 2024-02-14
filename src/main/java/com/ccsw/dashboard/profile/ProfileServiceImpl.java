@@ -43,8 +43,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Autowired
     private ReportVersionService reportVersionService;
     
+    @Cacheable("findAll")
     @Override
-    @Cacheable("capacidadesStaffing")
     public List<Profile> findAll(int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
         /*return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
@@ -57,7 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
         		.toList();
     }
     
-    @Cacheable("capacidadesTotalesStaffing")
+    @Cacheable("findAllActual")
     public List<Profile> findAllActual(String actual, int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
     	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffingAndActual(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing(), actual).stream()
@@ -98,6 +98,7 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
+    @Cacheable("findAllProfileTotals")
 	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
 		List<Profile> listAll = new ArrayList<Profile>();
