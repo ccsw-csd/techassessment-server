@@ -2,6 +2,7 @@ package com.ccsw.dashboard.config.literal;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.dashboard.config.literal.model.Literal;
@@ -50,6 +51,7 @@ public class LiteralServiceImpl implements LiteralService{
         return this.literalRepository.findById(id).orElse(null);
     }
 
+    @Cacheable("findByTypeAndSubtype")
 	@Override
 	public List<Literal> findByTypeAndSubtype(String type, String subtype) {
 		return this.literalRepository.findByTypeAndSubtype(type, subtype);

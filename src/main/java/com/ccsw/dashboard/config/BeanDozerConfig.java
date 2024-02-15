@@ -1,6 +1,7 @@
 package com.ccsw.dashboard.config;
 
 import org.dozer.DozerBeanMapper;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * 
 */
 @Configuration
+@EnableCaching
 public class BeanDozerConfig {
 	
 	@Bean

@@ -13,6 +13,7 @@ import com.ccsw.dashboard.reportversion.model.ReportVersionDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,11 +40,44 @@ public class ReportVersionServiceImpl implements ReportVersionService{
         return this.reportVersionRepository.findByIdVersionCapacidades(id).orElse(null);
     }
 
+    @Override
+    public List<ReportVersion> findByScreenshot(String id, String year) {
+    	
+    	if (year != null) {
+        	String str1 = year + "-01-01 00:00";
+        	String str2 = year + "-12-31 23:59";
+        	
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        	
+        	LocalDateTime dateTime1 = LocalDateTime.parse(str1, formatter);
+        	LocalDateTime dateTime2 = LocalDateTime.parse(str2, formatter);
+            
+        	try {
+                int d = Integer.parseInt(id);
+            	if (d == 0 || d == 1) {
+            		return this.reportVersionRepository.findByScreenshotAndFechaImportacionBetween(id, dateTime1, dateTime2);
+            	} else {
+            		return this.reportVersionRepository.findByFechaImportacionBetween(dateTime1, dateTime2);
+            	}
+            } catch (NumberFormatException nfe) {
+        		return this.reportVersionRepository.findByFechaImportacionBetween(dateTime1, dateTime2);
+            }
+    	} else {
+    		return this.reportVersionRepository.findByScreenshot(id);
+    	}
+
+    }
+    
 	@Override
-	public List<String> findYears() {
+	public List<String> findYears(String screenshot) {
 		List<String> rvList = new ArrayList<String>();
 		Map<String, String> rvMap = new HashMap<String, String>();
-		List<ReportVersion> listReportVersion = findAll();
+		List<ReportVersion> listReportVersion = new ArrayList<ReportVersion>();
+		if (screenshot != null) {
+			listReportVersion = findByScreenshot(screenshot, null);
+		} else {
+			listReportVersion = findAll();
+		}
 		for (ReportVersion reportVersion : listReportVersion) {
 			String year = String.valueOf(reportVersion.getFechaImportacion().getYear());
 			rvMap.putIfAbsent(year, "");			
@@ -78,6 +112,6 @@ public class ReportVersionServiceImpl implements ReportVersionService{
 	@Override
 	public ReportVersion findById(Long id) {
 		return reportVersionRepository.findById(id).orElse(null);
-	}	
+	}
 	    
 }
