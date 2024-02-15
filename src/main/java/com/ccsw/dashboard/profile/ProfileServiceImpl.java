@@ -2,10 +2,10 @@ package com.ccsw.dashboard.profile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.dashboard.config.literal.LiteralService;
@@ -17,10 +17,9 @@ import com.ccsw.dashboard.graderole.model.GradeTotal;
 import com.ccsw.dashboard.profile.model.Profile;
 import com.ccsw.dashboard.profile.model.ProfileGroup;
 import com.ccsw.dashboard.profile.model.ProfileTotal;
+import com.ccsw.dashboard.profile.model.InformeRoles;
 import com.ccsw.dashboard.reportversion.ReportVersionService;
 import com.ccsw.dashboard.reportversion.model.ReportVersion;
-import com.ccsw.dashboard.roleversion.RoleVersionService;
-import com.ccsw.dashboard.roleversion.model.RoleVersion;
 
 import jakarta.transaction.Transactional;
 
@@ -41,38 +40,93 @@ public class ProfileServiceImpl implements ProfileService {
     @Autowired
     private ReportVersionService reportVersionService;
     
+    @Cacheable("findAll")
     @Override
     public List<Profile> findAll(int idReport) {
     	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
-        return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
+        /*return (List<Profile>) this.profileRepository.findAll().stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
         		.filter(p->p.getIdImportStaffing()==rv.getIdVersionStaffing())
+        		.toList();*/
+        /*return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffing(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing()).stream().filter(p->p.getIdImportCapacidades()==rv.getIdVersionCapacidades())
+        		.filter(p->p.getIdImportStaffing()==rv.getIdVersionStaffing())
+        		.toList();*/
+    	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffing(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing()).stream()
         		.toList();
     }
     
+    @Cacheable("findAllActual")
+    public List<Profile> findAllActual(String actual, int idReport) {
+    	ReportVersion rv = reportVersionService.findById(Long.valueOf(idReport));
+    	return (List<Profile>) this.profileRepository.findAllByIdImportCapacidadesAndIdImportStaffingAndActual(rv.getIdVersionCapacidades(), rv.getIdVersionStaffing(), actual).stream()
+        		.toList();
+    }
+
 	@Override
+	public InformeRoles findAllInformeRoles(int idReport) {		
+		
+		InformeRoles informeRoles = new InformeRoles();
+		List<ProfileTotal> architects = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> softwareEngineer = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> industryExperts = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> engagementManagers = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> businessAnalyst = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> architectsCustomApps = new ArrayList<ProfileTotal>();
+		List<ProfileTotal> architectsIntegration = new ArrayList<ProfileTotal>();
+		List<GradeTotal> gradeTotal = new ArrayList<GradeTotal>();
+		
+		architects = findAllProfileTotals("Architects", idReport);
+		softwareEngineer = findAllProfileTotals("Software Engineer", idReport);
+		industryExperts = findAllProfileTotals("Industry Experts", idReport);
+		engagementManagers = findAllProfileTotals("Engagement Managers", idReport);
+		businessAnalyst = findAllProfileTotals("Business Analyst", idReport);
+		architectsCustomApps = findAllProfileTotals("Architects & SE Custom Apps Development", idReport);
+		architectsIntegration = findAllProfileTotals("Architects & SE Integration & APIs", idReport);		
+		
+		gradeTotal = gradeRoleService.findAllGradeTotals(idReport);
+		informeRoles.setArchitects(architects);
+		informeRoles.setSoftwareEngineer(softwareEngineer);
+		informeRoles.setIndustryExperts(industryExperts);
+		informeRoles.setEngagementManagers(engagementManagers);
+		informeRoles.setBusinessAnalyst(businessAnalyst);
+		informeRoles.setArchitectsCustomApps(architectsCustomApps);
+		informeRoles.setArchitectsIntegration(architectsIntegration);
+		informeRoles.setGradeTotal(gradeTotal);
+		return informeRoles;
+	}
+	
+	@Override
+    @Cacheable("findAllProfileTotals")
 	public List<ProfileTotal> findAllProfileTotals(String id, int idReport) {		
 						
-		List<Profile> listAll = this.findAll(idReport);
-		List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
+		List<Profile> listAll = new ArrayList<Profile>();
+		List<Profile> listActual = new ArrayList<Profile>();
 		List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 		switch (id) {
 		  case "Engagement Managers":
+			  listActual = findAllActual(id, idReport);
 			  return engagementManagersTotal(findByTypeAndSubtype, listActual);	
 		  case "Architects":
+			  listActual = findAllActual(id, idReport);
 			  return architectsTotal(findByTypeAndSubtype, listActual);
 		  case "Business Analyst":
+			  listActual = findAllActual(id, idReport);
 		      return businessAnalystTotal(findByTypeAndSubtype, listActual);
 		  case "Software Engineer":			 
+			  listActual = findAllActual(id, idReport);
 			  return softwareEngineerTotal(findByTypeAndSubtype, listActual);
-		  case "Industry Experts":			     	
+		  case "Industry Experts":
+			  listAll = this.findAll(idReport);
 		      return industryExpertsTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Custom Apps Development":
+			  listAll = this.findAll(idReport);
 			  return architectsAndSECustomAppsDevelopmentTotal(findByTypeAndSubtype, listAll);
 		  case "Architects & SE Integration & APIs":
+			  listAll = this.findAll(idReport);
 			  return architectsAndSEIntegrationAndApisTotal(findByTypeAndSubtype, listAll);
 		  case "Pyramid Grade-Rol":
 			  return pyramidTotal(this.gradeRoleService.findAllGradeTotals(idReport));
 		  case "All":
+			  listAll = this.findAll(idReport);
 			  return allTotal(findByTypeAndSubtype, listAll);
 		  default:
 			 throw new MyBadAdviceException("entrada no válida");
@@ -309,7 +363,7 @@ private List<ProfileTotal> pyramidTotal(List<GradeTotal> list) {
 public List<ProfileGroup> findAllProfile(String id, int idReport) {		
 					
 	List<Profile> listAll = this.findAll(idReport);
-	List<Profile> listActual = listAll.stream().filter(p->p.getActual().equals(id)).toList();
+	List<Profile> listActual = findAllActual(id, idReport);
 	List<Literal> findByTypeAndSubtype = literalService.findByTypeAndSubtype(id, "r");
 	switch (id) {
 	  case "Engagement Managers":

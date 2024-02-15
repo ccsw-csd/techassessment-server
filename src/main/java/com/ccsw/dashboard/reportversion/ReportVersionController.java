@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.dashboard.reportversion.model.ReportVersion;
@@ -54,9 +55,14 @@ public class ReportVersionController {
         return this.reportVersionService.findByIdVersionCapacidades(Long.valueOf(id));     
     }
     
+    @RequestMapping(path = "/screenshot/{screenshot}", method = RequestMethod.GET)
+    public List<ReportVersion> findByScreenshotNum(@PathVariable(name = "screenshot", required = true) String screenshot, @RequestParam(value = "year", required = false) String year){
+        return this.reportVersionService.findByScreenshot(screenshot, year);     
+    }
+    
     @RequestMapping(path = "/years", method = RequestMethod.GET)
-    public List<String> findYears(){
-       return this.reportVersionService.findYears();
+    public List<String> findYears(@RequestParam(name = "screenshot", required = false) String screenshot){
+       return this.reportVersionService.findYears(screenshot);
     }
     
     @RequestMapping(path = { "/{id}" }, method = RequestMethod.PUT)

@@ -1,6 +1,7 @@
 package com.ccsw.dashboard.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import com.ccsw.dashboard.config.security.JsonWebTokenAuthenticationFilter;
 import com.ccsw.dashboard.config.security.JsonWebTokenAuthenticationProvider;
 
 @Configuration
+@EnableCaching
 @EnableWebSecurity
 public class WebSecurityConfig {
 
