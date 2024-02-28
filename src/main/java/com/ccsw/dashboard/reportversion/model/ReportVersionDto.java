@@ -2,43 +2,40 @@ package com.ccsw.dashboard.reportversion.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ccsw.dashboard.roleversion.model.RoleVersionDto;
+import com.ccsw.dashboard.staffingversion.model.StaffingVersionDto;
 
 
 public class ReportVersionDto {
 	
 
-	private int id;
-    private int idVersionCapacidades;
-    private int idVersionStaffing;
+	private Long id;
+    private RoleVersionDto idVersionCapacidades;
+    private StaffingVersionDto idVersionStaffing;
     private int screenshot;
     private LocalDateTime fechaImportacion;
     private String descripcion;
     private String usuario;
     private LocalDateTime fechaModificacion;
-    private String comentarios;
+    private String comentarios;       
     
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-	public int getIdVersionCapacidades() {
+	}	
+	
+	public RoleVersionDto getIdVersionCapacidades() {
 		return idVersionCapacidades;
 	}
-	public void setIdVersionCapacidades(int idVersionCapacidades) {
+	public void setIdVersionCapacidades(RoleVersionDto idVersionCapacidades) {
 		this.idVersionCapacidades = idVersionCapacidades;
 	}
-	public int getIdVersionStaffing() {
+	public StaffingVersionDto getIdVersionStaffing() {
 		return idVersionStaffing;
 	}
-	public void setIdVersionStaffing(int idVersionStaffing) {
+	public void setIdVersionStaffing(StaffingVersionDto idVersionStaffing) {
 		this.idVersionStaffing = idVersionStaffing;
 	}
 	public int getScreenshot() {

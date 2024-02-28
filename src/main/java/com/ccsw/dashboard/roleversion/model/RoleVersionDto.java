@@ -2,30 +2,46 @@ package com.ccsw.dashboard.roleversion.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 
 public class RoleVersionDto {
 	
 
-	private int id;
+	private Long id;
     private int idTipoInterfaz;
     private LocalDateTime fechaImportacion;
     private int numRegistros;
     private String nombreFichero;
     private String descripcion;
     private String usuario;
+    
+    
+   
+	public RoleVersionDto(Long id, int idTipoInterfaz, LocalDateTime fechaImportacion, int numRegistros,
+			String nombreFichero, String descripcion, String usuario) {
+		super();
+		this.id = id;
+		this.idTipoInterfaz = idTipoInterfaz;
+		this.fechaImportacion = fechaImportacion;
+		this.numRegistros = numRegistros;
+		this.nombreFichero = nombreFichero;
+		this.descripcion = descripcion;
+		this.usuario = usuario;
+	}
+	
+	
 
-	public int getId() {
+	public RoleVersionDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
