@@ -10,8 +10,8 @@ public class ReportVersionDto {
 	
 
 	private Long id;
-    private RoleVersionDto idVersionCapacidades;
-    private StaffingVersionDto idVersionStaffing;
+    private RoleVersionDto roleVersion;
+    private StaffingVersionDto staffingVersion;
     private int screenshot;
     private LocalDateTime fechaImportacion;
     private String descripcion;
@@ -25,18 +25,18 @@ public class ReportVersionDto {
 	public void setId(Long id) {
 		this.id = id;
 	}	
-	
-	public RoleVersionDto getIdVersionCapacidades() {
-		return idVersionCapacidades;
+
+	public RoleVersionDto getRoleVersion() {
+		return roleVersion;
 	}
-	public void setIdVersionCapacidades(RoleVersionDto idVersionCapacidades) {
-		this.idVersionCapacidades = idVersionCapacidades;
+	public void setRoleVersion(RoleVersionDto roleVersion) {
+		this.roleVersion = roleVersion;
 	}
-	public StaffingVersionDto getIdVersionStaffing() {
-		return idVersionStaffing;
+	public StaffingVersionDto getStaffingVersion() {
+		return staffingVersion;
 	}
-	public void setIdVersionStaffing(StaffingVersionDto idVersionStaffing) {
-		this.idVersionStaffing = idVersionStaffing;
+	public void setStaffingVersion(StaffingVersionDto staffingVersion) {
+		this.staffingVersion = staffingVersion;
 	}
 	public int getScreenshot() {
 		return screenshot;

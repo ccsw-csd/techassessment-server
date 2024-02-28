@@ -37,7 +37,7 @@ public class ReportVersionController {
         		.map(rv-> { 
 				ReportVersionDto rvdto = new ReportVersionDto();	    			
 	            RoleVersion roleVersion = roleVersionService.findById(Long.valueOf(rv.getIdVersionCapacidades()));
-				rvdto.setIdVersionCapacidades(roleVersion == null ? null : new RoleVersionDto(roleVersion.getId(), 
+				rvdto.setRoleVersion(roleVersion == null ? null : new RoleVersionDto(roleVersion.getId(), 
 																  											   roleVersion.getIdTipoInterfaz(),
 																  											   roleVersion.getFechaImportacion(),
 																  											   roleVersion.getNumRegistros(),
@@ -45,7 +45,7 @@ public class ReportVersionController {
 																  											   roleVersion.getDescripcion(),
 																  											   roleVersion.getUsuario()));
 				StaffingVersion staffingVersion = staffingVersionService.findById(Long.valueOf(rv.getIdVersionStaffing()));
-				rvdto.setIdVersionStaffing(staffingVersion == null ? null : new StaffingVersionDto(staffingVersion.getId(),
+				rvdto.setStaffingVersion(staffingVersion == null ? null : new StaffingVersionDto(staffingVersion.getId(),
 																  									staffingVersion.getIdTipoInterfaz(),
 																  									staffingVersion.getFechaImportacion(),
 																  									staffingVersion.getNumRegistros(),
@@ -71,7 +71,7 @@ public class ReportVersionController {
     			.map(rv-> { 
 	    			ReportVersionDto rvdto = new ReportVersionDto();	    			
                     RoleVersion roleVersion = roleVersionService.findById(Long.valueOf(rv.getIdVersionCapacidades()));
-	    			rvdto.setIdVersionCapacidades(roleVersion == null ? null : new RoleVersionDto(roleVersion.getId(), 
+	    			rvdto.setRoleVersion(roleVersion == null ? null : new RoleVersionDto(roleVersion.getId(), 
 	    															  											   roleVersion.getIdTipoInterfaz(),
 	    															  											   roleVersion.getFechaImportacion(),
 	    															  											   roleVersion.getNumRegistros(),
@@ -79,7 +79,7 @@ public class ReportVersionController {
 	    															  											   roleVersion.getDescripcion(),
 	    															  											   roleVersion.getUsuario()));
 	    			StaffingVersion staffingVersion = staffingVersionService.findById(Long.valueOf(rv.getIdVersionStaffing()));
-	    			rvdto.setIdVersionStaffing(staffingVersion == null ? null : new StaffingVersionDto(staffingVersion.getId(),
+	    			rvdto.setStaffingVersion(staffingVersion == null ? null : new StaffingVersionDto(staffingVersion.getId(),
 	    															  									staffingVersion.getIdTipoInterfaz(),
 	    															  									staffingVersion.getFechaImportacion(),
 	    															  									staffingVersion.getNumRegistros(),
