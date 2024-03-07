@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.ccsw</groupId>
-	<artifactId>dashboard-server</artifactId>
+	<artifactId>techassessment-server</artifactId>
 	<version>1.0.0</version>
-	<name>dashboard</name>
-	<description>Dashboard Server</description>
+	<name>techassessment</name>
+	<description>Tech Assessment Server</description>
 	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
