@@ -3,9 +3,11 @@ package com.ccsw.techassessment.skill.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "skill")
-public class Skill {
+public class Skill implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +15,8 @@ public class Skill {
     private Long id;
 
 
-    @Column(name = "skillGroup")
-    private String skillGroup;
+    @Column(name = "`group`")
+    private String group;
 
 
     @Column(name = "label")
@@ -23,9 +25,9 @@ public class Skill {
     public Skill() {
     }
 
-    public Skill(Long id, String skillGroup, String label) {
+    public Skill(Long id, String group, String label) {
         this.id = id;
-        this.skillGroup = skillGroup;
+        this.group = group;
         this.label = label;
     }
 
@@ -37,10 +39,10 @@ public class Skill {
     }
 
     /**
-     * @return skillGroup
+     * @return group
      */
-    public String getSkillGroup() {
-        return skillGroup;
+    public String getGroup() {
+        return group;
     }
 
     /**
@@ -58,10 +60,10 @@ public class Skill {
     }
 
     /**
-     * @param skillGroup new value of {@link #getSkillGroup}.
+     * @param group new value of {@link #getGroup}.
      */
-    public void setSkillGroup(String skillGroup) {
-        this.skillGroup = skillGroup;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     /**
@@ -75,7 +77,7 @@ public class Skill {
     public String toString() {
         return "Skill{" +
                 "id=" + id +
-                ", skillGroup='" + skillGroup + '\'' +
+                ", group='" + group + '\'' +
                 ", label='" + label + '\'' +
                 '}';
     }

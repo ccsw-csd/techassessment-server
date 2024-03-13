@@ -49,7 +49,7 @@ public class SkillServiceImpl implements SkillService{
      * {@inheritDoc}
      */
     @Override
-    public void saveSkill(Long id, SkillDto dto) {
+    public void saveSkill(Long id, SkillDto dto) throws Exception {
 
         Skill skill;
 
@@ -57,10 +57,12 @@ public class SkillServiceImpl implements SkillService{
             skill = new Skill();
 
         } else {
-            skill = skillRepository.findById(id).orElse(null);
+            //Si no existe el id lanza error
+
+            skill = skillRepository.findById(id).orElseThrow(() -> new Exception("Skill not found"));
         }
 
-        skill.setSkillGroup(dto.getSkillGroup());
+        skill.setGroup(dto.getGroup());
         skill.setLabel(dto.getLabel());
 
         skillRepository.save(skill);
@@ -70,10 +72,10 @@ public class SkillServiceImpl implements SkillService{
      * {@inheritDoc}
      */
     @Override
-    public void deleteSkill(Long id) throws RuntimeException {
+    public void deleteSkill(Long id) throws Exception {
 
         if(skillRepository.findById(id).orElse(null) == null){
-            throw new RuntimeException("Skill not found");
+            throw new Exception("Skill not found");
         }
 
         skillRepository.deleteById(id);

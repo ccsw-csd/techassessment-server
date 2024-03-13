@@ -30,8 +30,6 @@ public class SkillController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Page<SkillDto> findPage(@RequestBody SkillSearchDto dto) {
 
-        System.out.println("sort: " + dto.getPageable().getSort().toString());
-
         Page<Skill> page = this.skillService.findPage(dto);
 
         return new PageImpl<>(
@@ -52,16 +50,22 @@ public class SkillController {
         return skills.stream().map(skill -> mapper.map(skill, SkillDto.class)).toList();
     }
 
-    @Operation(summary = "Save or Update", description = "Method that save or update a skill")
+    @Operation(summary = "New Skill", description = "Method that save a new Skill")
+    @RequestMapping(path = "/new", method = RequestMethod.POST)
+    public void newSkill(@RequestBody SkillDto skillDto) throws Exception {
+        skillService.saveSkill(null, skillDto);
+    }
+
+    @Operation(summary = "Update", description = "Method that update a skill")
     @RequestMapping(path ={ "","/{id}" }, method = RequestMethod.PUT)
-    public void saveSkill(@PathVariable(name = "id", required = false) Long id, @RequestBody SkillDto skillDto) {
+    public void updateSkill(@PathVariable(name = "id", required = true) Long id, @RequestBody SkillDto skillDto) throws Exception {
 
         skillService.saveSkill(id, skillDto);
     }
 
     @Operation(summary = "Delete skill", description = "Method that delete a skill")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteSkill(@PathVariable("id") Long id) {
+    public void deleteSkill(@PathVariable("id") Long id) throws Exception {
         skillService.deleteSkill(id);
     }
 

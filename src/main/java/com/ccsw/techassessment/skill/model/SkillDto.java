@@ -5,7 +5,7 @@ import java.util.List;
 public class SkillDto {
 
         private Long id;
-        private String skillGroup;
+        private String group;
         private String label;
 
         public Long getId() {
@@ -16,12 +16,12 @@ public class SkillDto {
             this.id = id;
         }
 
-        public String getSkillGroup() {
-            return skillGroup;
+        public String getGroup() {
+            return group;
         }
 
-        public void setSkillGroup(String skillGroup) {
-            this.skillGroup = skillGroup;
+        public void setGroup(String group) {
+            this.group = group;
         }
 
         public String getLabel() {

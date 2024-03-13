@@ -34,13 +34,13 @@ public interface SkillService {
      * Save or update a skill
      * @param skillDto
      */
-    void saveSkill(Long id, SkillDto skillDto);
+    void saveSkill(Long id, SkillDto skillDto) throws Exception;
 
     /**
      * Delete a skill
      * @param id
      */
-    void deleteSkill(Long id) throws RuntimeException;
+    void deleteSkill(Long id) throws Exception;
 
 
 }
