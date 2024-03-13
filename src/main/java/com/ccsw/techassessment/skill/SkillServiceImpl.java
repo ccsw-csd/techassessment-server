@@ -1,6 +1,8 @@
 package com.ccsw.techassessment.skill;
 
 
+import com.ccsw.techassessment.exception.skill.DuplicateLabelException;
+import com.ccsw.techassessment.exception.skill.RequiredFieldsException;
 import com.ccsw.techassessment.skill.model.Skill;
 import com.ccsw.techassessment.skill.model.SkillDto;
 import com.ccsw.techassessment.skill.model.SkillSearchDto;
@@ -57,9 +59,15 @@ public class SkillServiceImpl implements SkillService{
             skill = new Skill();
 
         } else {
-            //Si no existe el id lanza error
-
             skill = skillRepository.findById(id).orElseThrow(() -> new Exception("Skill not found"));
+        }
+
+        if(dto.getGroup() == null || dto.getGroup().isEmpty() || dto.getLabel() == null || dto.getLabel().isEmpty()){
+            throw new RequiredFieldsException("Group and label are required");
+        }
+
+        if(skillRepository.findByGroupAndLabel(dto.getGroup(), dto.getLabel()).isPresent()){
+            throw new DuplicateLabelException("Skill with group " + dto.getGroup() + " and label " + dto.getLabel() + " already exists");
         }
 
         skill.setGroup(dto.getGroup());
