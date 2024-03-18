@@ -20,11 +20,14 @@ import java.util.stream.Collectors;
 @RestController
 public class SkillController {
 
-    @Autowired
-    SkillService skillService;
+    private SkillService skillService;
+    private DozerBeanMapper mapper;
 
     @Autowired
-    DozerBeanMapper mapper;
+    public SkillController(SkillService skillService, DozerBeanMapper mapper) {
+        this.skillService = skillService;
+        this.mapper = mapper;
+    }
 
     @Operation(summary = "Find Page", description = "Method that return a page of Skills")
     @RequestMapping(path = "", method = RequestMethod.POST)

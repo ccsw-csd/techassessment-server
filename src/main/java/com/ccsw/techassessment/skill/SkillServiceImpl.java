@@ -1,6 +1,9 @@
 package com.ccsw.techassessment.skill;
 
 
+import com.ccsw.techassessment.exception.NotFoundException;
+import com.ccsw.techassessment.exception.skill.DuplicateLabelException;
+import com.ccsw.techassessment.exception.RequiredFieldsException;
 import com.ccsw.techassessment.skill.model.Skill;
 import com.ccsw.techassessment.skill.model.SkillDto;
 import com.ccsw.techassessment.skill.model.SkillSearchDto;
@@ -10,14 +13,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
 public class SkillServiceImpl implements SkillService{
 
+
+    private SkillRepository skillRepository;
+
     @Autowired
-    SkillRepository skillRepository;
+    public SkillServiceImpl(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository;
+    }
 
     /**
      * {@inheritDoc}
@@ -34,6 +43,7 @@ public class SkillServiceImpl implements SkillService{
      */
     @Override
     public Skill getSkill(Long id) {
+
         return skillRepository.findById(id).orElse(null);
     }
 
@@ -57,9 +67,15 @@ public class SkillServiceImpl implements SkillService{
             skill = new Skill();
 
         } else {
-            //Si no existe el id lanza error
+            skill = skillRepository.findById(id).orElse(null);
+        }
 
-            skill = skillRepository.findById(id).orElseThrow(() -> new Exception("Skill not found"));
+        if(dto.getGroup() == null || dto.getGroup().isEmpty() || dto.getLabel() == null || dto.getLabel().isEmpty()){
+            throw new RequiredFieldsException("Group and label are required");
+        }
+
+        if(skillRepository.findByGroupAndLabel(dto.getGroup(), dto.getLabel()).isPresent()){
+            throw new DuplicateLabelException("Skill with group " + dto.getGroup() + " and label " + dto.getLabel() + " already exists");
         }
 
         skill.setGroup(dto.getGroup());
@@ -75,7 +91,7 @@ public class SkillServiceImpl implements SkillService{
     public void deleteSkill(Long id) throws Exception {
 
         if(skillRepository.findById(id).orElse(null) == null){
-            throw new Exception("Skill not found");
+            throw new NotFoundException("Skill not found");
         }
 
         skillRepository.deleteById(id);

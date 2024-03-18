@@ -14,10 +14,8 @@ public class Skill implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
     @Column(name = "`group`")
     private String group;
-
 
     @Column(name = "label")
     private String label;

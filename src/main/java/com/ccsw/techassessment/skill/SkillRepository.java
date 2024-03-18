@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import com.ccsw.techassessment.skill.model.Skill;
 
+import java.util.Optional;
+
 @Repository
 public interface SkillRepository extends CrudRepository<Skill, Long>, JpaRepository<Skill, Long> {
 
@@ -16,5 +18,16 @@ public interface SkillRepository extends CrudRepository<Skill, Long>, JpaReposit
      * @return {@link Page} of {@link Skill}
      */
     Page<Skill> findAll(Pageable pageable);
+
+    /**
+     * Find a skill by group and label
+     * @param group
+     * @param label
+     * @return {@link Optional} of {@link Skill}
+     */
+    Optional<Skill> findByGroupAndLabel(String group, String label);
+
+
+
 
 }
