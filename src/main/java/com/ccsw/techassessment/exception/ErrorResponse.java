@@ -1,15 +1,15 @@
-package com.ccsw.techassessment.exception.skill;
+package com.ccsw.techassessment.exception;
 
-public class SkillErrorResponse {
+public class ErrorResponse {
 
     private int status;
     private String message;
     private long timeStamp;
 
-    public SkillErrorResponse() {
+    public ErrorResponse() {
     }
 
-    public SkillErrorResponse(int status, String message, long timeStamp) {
+    public ErrorResponse(int status, String message, long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;
