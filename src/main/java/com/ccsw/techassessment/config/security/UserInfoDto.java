@@ -140,7 +140,7 @@ public class UserInfoDto {
     }
 
     /**
-     * @param role the role to set
+     * @param roles the role to set
      */
     public void setRoles(Map<String, List<String>> roles) {
         this.roles = roles;
