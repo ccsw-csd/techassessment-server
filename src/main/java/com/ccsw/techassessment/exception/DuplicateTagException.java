@@ -1,4 +1,4 @@
-package com.ccsw.techassessment.exception.question;
+package com.ccsw.techassessment.exception;
 
 public class DuplicateTagException extends RuntimeException{
     public DuplicateTagException(String message) {

@@ -1,4 +1,4 @@
-package com.ccsw.techassessment.exception.question;
+package com.ccsw.techassessment.exception.position;
 
 import com.ccsw.techassessment.exception.*;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class QuestionRestExceptionHandler {
+public class PositionRestExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(DuplicateTagException exc) {
@@ -46,4 +46,3 @@ public class QuestionRestExceptionHandler {
     }
 
 }
-
