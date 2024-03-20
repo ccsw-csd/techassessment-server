@@ -1,4 +1,4 @@
-package com.ccsw.techassessment.exception;
+package com.ccsw.techassessment.exception.question;
 
 public class RequiredTagException extends RuntimeException{
     public RequiredTagException(String message) {

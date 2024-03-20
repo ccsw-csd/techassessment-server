@@ -1,6 +1,9 @@
 package com.ccsw.techassessment.question;
 
 import com.ccsw.techassessment.question.model.QuestionSearchDto;
+import com.ccsw.techassessment.skill.model.Skill;
+import com.ccsw.techassessment.skill.model.SkillDto;
+import com.ccsw.techassessment.skill.model.SkillSearchDto;
 import org.dozer.DozerBeanMapper;
 
 import com.ccsw.techassessment.question.model.Question;
