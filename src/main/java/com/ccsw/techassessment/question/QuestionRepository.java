@@ -21,4 +21,6 @@ public interface QuestionRepository extends CrudRepository<Question, Long>, JpaS
     @EntityGraph(attributePaths = { "tag","level" })
     Page<Question> findAll(Specification<Question> spec,Pageable pageable);
 
+    /*@EntityGraph(attributePaths = { "level" })
+    Page<Question> findAll(Specification<Question> spec,Pageable pageable);*/
 }

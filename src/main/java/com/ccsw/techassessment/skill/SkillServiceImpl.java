@@ -1,20 +1,15 @@
 package com.ccsw.techassessment.skill;
 
 
-import com.ccsw.techassessment.common.criteria.SearchCriteria;
 import com.ccsw.techassessment.exception.NotFoundException;
 import com.ccsw.techassessment.exception.skill.DuplicateLabelException;
 import com.ccsw.techassessment.exception.RequiredFieldsException;
-import com.ccsw.techassessment.question.QuestionSpecification;
-import com.ccsw.techassessment.question.model.Question;
-import com.ccsw.techassessment.skill.model.FiltersDto;
 import com.ccsw.techassessment.skill.model.Skill;
 import com.ccsw.techassessment.skill.model.SkillDto;
 import com.ccsw.techassessment.skill.model.SkillSearchDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,19 +34,9 @@ public class SkillServiceImpl implements SkillService{
     @Override
     public Page<Skill> findPage(SkillSearchDto dto) {
 
-        FiltersDto filtros = dto.getFilterParams();
-
-        if(filtros == null){
-            return this.skillRepository.findAll(null, dto.getPageable().getPageable());
-        }
-
-        SkillSpecification groupSpec = new SkillSpecification(new SearchCriteria("group", ":", filtros.getGroup()));
-        SkillSpecification labelSpec = new SkillSpecification(new SearchCriteria("label", ":", filtros.getLabel()));
-
-        Specification<Skill> spec = Specification.where(groupSpec).and(labelSpec);
-
-        return this.skillRepository.findAll(spec, dto.getPageable().getPageable());
+        return this.skillRepository.findAll(dto.getPageable().getPageable());
     }
+
 
     /**
      * {@inheritDoc}
@@ -67,7 +52,7 @@ public class SkillServiceImpl implements SkillService{
      */
     @Override
     public List<Skill> getAllSkills() {
-        return (List<Skill>) skillRepository.findAll();
+        return skillRepository.findAll();
     }
 
     /**
