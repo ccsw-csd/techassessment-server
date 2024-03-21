@@ -2,8 +2,8 @@ package com.ccsw.techassessment.question;
 
 import com.ccsw.techassessment.exception.NotFoundException;
 import com.ccsw.techassessment.exception.RequiredFieldsException;
-import com.ccsw.techassessment.exception.question.DuplicateTagException;
-import com.ccsw.techassessment.exception.question.RequiredTagException;
+import com.ccsw.techassessment.exception.question.DuplicateSkillException;
+import com.ccsw.techassessment.exception.question.RequiredSkillException;
 import com.ccsw.techassessment.question.model.FiltersDto;
 import com.ccsw.techassessment.question.model.Question;
 import com.ccsw.techassessment.question.model.QuestionDto;
@@ -11,9 +11,7 @@ import com.ccsw.techassessment.question.model.QuestionSearchDto;
 import com.ccsw.techassessment.skill.SkillService;
 import com.ccsw.techassessment.skill.model.Skill;
 import com.ccsw.techassessment.skill.model.SkillDto;
-import com.ccsw.techassessment.skill.model.SkillSearchDto;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -52,10 +50,10 @@ public class QuestionServiceImpl implements QuestionService{
             return this.questionRepository.findAll(null, dto.getPageable().getPageable());
         }
 
-        QuestionSpecification tagSpec = new QuestionSpecification(new SearchCriteria("tag.id", ":", filtros.getTag()));
+        QuestionSpecification skillSpec = new QuestionSpecification(new SearchCriteria("skill.id", ":", filtros.getSkill()));
         QuestionSpecification levelSpec = new QuestionSpecification(new SearchCriteria("level", ":", filtros.getLevel()));
 
-        Specification<Question> spec = Specification.where(tagSpec).and(levelSpec);
+        Specification<Question> spec = Specification.where(skillSpec).and(levelSpec);
         //Specification<Question> spec = Specification.where(levelSpec);
 
         return this.questionRepository.findAll(spec, dto.getPageable().getPageable());
@@ -66,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService{
      */
     @Override
     public Question getQuestion(Long id) {
-        return questionRepository.findById(id).orElse(null);
+        return questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
     }
 
     /**
@@ -86,7 +84,7 @@ public class QuestionServiceImpl implements QuestionService{
         Question question;
 
         if(id != null){
-            question = questionRepository.findById(id).orElse(null);
+            question = questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
         } else {
             question = new Question();
         }
@@ -95,27 +93,27 @@ public class QuestionServiceImpl implements QuestionService{
         question.setAnswer(dto.getAnswer());
         question.setLevel(dto.getLevel());
 
-        List<Skill> tags = new ArrayList<>();
-        for(SkillDto skillDto : dto.getTag()){
+        List<Skill> skills = new ArrayList<>();
+        for(SkillDto skillDto : dto.getSkill()){
             Skill skill = skillService.getSkill(skillDto.getId());
             if(skill == null){
                 throw new NotFoundException("Skill not found");
             }
-            tags.add(skill);
+            skills.add(skill);
         }
-        question.setTag(tags);
+        question.setSkill(skills);
 
-        if(tags == null || tags.isEmpty()){
-            throw new RequiredTagException("At least, one skill is required");
+        if(skills == null || skills.isEmpty()){
+            throw new RequiredSkillException("At least, one skill is required");
         }
 
         if(dto.getQuestion() == null || dto.getQuestion().isEmpty() || dto.getAnswer() == null || dto.getAnswer().isEmpty() || dto.getLevel() == null){
             throw new RequiredFieldsException("Question, answer and level are required");
         }
 
-        List<Long> ids = tags.stream().map(Skill::getId).collect(Collectors.toList());
+        List<Long> ids = skills.stream().map(Skill::getId).collect(Collectors.toList());
         if(ids.size() != ids.stream().distinct().count()){
-            throw new DuplicateTagException("A question cannot have the same tag twice");
+            throw new DuplicateSkillException("A question cannot have the same skill twice");
         }
 
 
@@ -131,9 +129,7 @@ public class QuestionServiceImpl implements QuestionService{
         if(questionRepository.findById(id).orElse(null) == null){
             throw new NotFoundException("Question not found");
         }
-
         questionRepository.deleteById(id);
     }
 
- 
 }

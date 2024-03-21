@@ -44,7 +44,7 @@ public class SkillServiceImpl implements SkillService{
     @Override
     public Skill getSkill(Long id) {
 
-        return skillRepository.findById(id).orElse(null);
+        return skillRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
     }
 
     /**
@@ -67,7 +67,7 @@ public class SkillServiceImpl implements SkillService{
             skill = new Skill();
 
         } else {
-            skill = skillRepository.findById(id).orElse(null);
+            skill = skillRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
         }
 
         if(dto.getGroup() == null || dto.getGroup().isEmpty() || dto.getLabel() == null || dto.getLabel().isEmpty()){

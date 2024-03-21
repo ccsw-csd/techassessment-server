@@ -2,15 +2,15 @@ package com.ccsw.techassessment.question.model;
 
 
 public class FiltersDto {
-    private Long tag;
+    private Long skill;
     private Double level;
 
-    public Long getTag() {
-        return tag;
+    public Long getSkill() {
+        return skill;
     }
 
-    public void setTag(Long tag) {
-        this.tag = tag;
+    public void setSkill(Long skill) {
+        this.skill = skill;
     }
 
     public Double getLevel() {
@@ -24,16 +24,16 @@ public class FiltersDto {
     public FiltersDto() {
     }
 
-    public FiltersDto(Long tag, Double level) {
+    public FiltersDto(Long skill, Double level) {
         super();
-        this.tag = tag;
+        this.skill = skill;
         this.level = level;
     }
 
     @Override
     public String toString() {
         return "FiltersDto{" +
-                "tag=" + tag +
+                "skill=" + skill +
                 ", level=" + level +
                 '}';
     }

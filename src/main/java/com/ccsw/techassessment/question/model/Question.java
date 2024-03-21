@@ -27,18 +27,18 @@ public class Question {
     @JoinTable(
             name = "question_skill",
             joinColumns = @JoinColumn(name = "question_id"),
-            inverseJoinColumns = @JoinColumn(name = "tags_id")
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
-    private List<Skill> tag;
+    private List<Skill> skill;
 
     public Question() {
     }
 
-    public Question(String question, String answer, Double level, List<Skill> tag) {
+    public Question(String question, String answer, Double level, List<Skill> skill) {
         this.question = question;
         this.answer = answer;
         this.level = level;
-        this.tag = tag;
+        this.skill = skill;
     }
 
     /**
@@ -70,10 +70,10 @@ public class Question {
     }
 
     /**
-     * @return  tag
+     * @return  skill
      */
-    public List<Skill> getTag() {
-        return tag;
+    public List<Skill> getSkill() {
+        return skill;
     }
 
     /**
@@ -105,10 +105,10 @@ public class Question {
     }
 
     /**
-     * @param tag new value of {@link #getTag}.
+     * @param skill new value of {@link #getSkill}.
      */
-    public void setTag(List<Skill> tag) {
-        this.tag = tag;
+    public void setSkill(List<Skill> skill) {
+        this.skill = skill;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Question {
                 question + '\'' +
                 ", answer='" + answer + '\'' +
                 ", level=" + level +
-                ", tag=" + tag +
+                ", skill=" + skill +
                 '}';
     }
 

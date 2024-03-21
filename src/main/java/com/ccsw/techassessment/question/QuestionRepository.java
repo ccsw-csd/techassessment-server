@@ -18,9 +18,7 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Long>, JpaSpecificationExecutor<Question> {
 
-    @EntityGraph(attributePaths = { "tag","level" })
+    @EntityGraph(attributePaths = { "skill","level" })
     Page<Question> findAll(Specification<Question> spec,Pageable pageable);
 
-    /*@EntityGraph(attributePaths = { "level" })
-    Page<Question> findAll(Specification<Question> spec,Pageable pageable);*/
 }
