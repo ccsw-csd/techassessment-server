@@ -66,7 +66,7 @@ public class QuestionServiceImpl implements QuestionService{
      */
     @Override
     public Question getQuestion(Long id) {
-        return questionRepository.findById(id).orElse(null);
+        return questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
     }
 
     /**
@@ -86,7 +86,7 @@ public class QuestionServiceImpl implements QuestionService{
         Question question;
 
         if(id != null){
-            question = questionRepository.findById(id).orElse(null);
+            question = questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
         } else {
             question = new Question();
         }
@@ -131,9 +131,7 @@ public class QuestionServiceImpl implements QuestionService{
         if(questionRepository.findById(id).orElse(null) == null){
             throw new NotFoundException("Question not found");
         }
-
         questionRepository.deleteById(id);
     }
 
- 
 }

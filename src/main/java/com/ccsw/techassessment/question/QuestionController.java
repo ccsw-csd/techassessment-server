@@ -57,12 +57,12 @@ public class QuestionController {
 
     @Operation(summary = "New Question", description = "Method that create a new question")
     @RequestMapping(path ={"/new"}, method = RequestMethod.POST)
-    public void saveQuestion(@RequestBody QuestionDto questionDto) throws Exception {
+    public void newQuestion(@RequestBody QuestionDto questionDto) throws Exception {
         questionService.saveQuestion(null,questionDto);
     }
     @Operation(summary = "Update", description = "Method that update a question")
     @RequestMapping(path ={"","/{id}"}, method = RequestMethod.PUT)
-    public void saveQuestion(@PathVariable(name = "id", required = false) Long id, @RequestBody QuestionDto questionDto) throws Exception {
+    public void updateQuestion(@PathVariable(name = "id", required = false) Long id, @RequestBody QuestionDto questionDto) throws Exception {
         questionService.saveQuestion(id, questionDto);
     }
 
