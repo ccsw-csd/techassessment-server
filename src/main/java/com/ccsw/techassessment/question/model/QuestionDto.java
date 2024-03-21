@@ -11,7 +11,7 @@ public class QuestionDto {
     private String question;
     private String answer;
     private Double level;
-    private List<SkillDto> tag;
+    private List<SkillDto> skill;
 
     public Long getId() {
         return id;
@@ -45,12 +45,12 @@ public class QuestionDto {
         this.level = level;
     }
 
-    public List<SkillDto> getTag() {
-        return tag;
+    public List<SkillDto> getSkill() {
+        return skill;
     }
 
-    public void setTag(List<SkillDto> tag) {
-        this.tag = tag;
+    public void setSkill(List<SkillDto> skill) {
+        this.skill = skill;
     }
 
 }
