@@ -3,7 +3,7 @@ package com.ccsw.techassessment.question;
 import com.ccsw.techassessment.exception.NotFoundException;
 import com.ccsw.techassessment.exception.RequiredFieldsException;
 import com.ccsw.techassessment.exception.question.DuplicateSkillException;
-import com.ccsw.techassessment.exception.question.RequiredSkillException;
+import com.ccsw.techassessment.exception.RequiredSkillException;
 import com.ccsw.techassessment.question.model.FiltersDto;
 import com.ccsw.techassessment.question.model.Question;
 import com.ccsw.techassessment.question.model.QuestionDto;

@@ -1,8 +1,10 @@
-package com.ccsw.techassessment.exception.question;
+package com.ccsw.techassessment.exception.position;
 
 import com.ccsw.techassessment.exception.ErrorResponse;
 import com.ccsw.techassessment.exception.NotFoundException;
 import com.ccsw.techassessment.exception.RequiredFieldsException;
+
+
 import com.ccsw.techassessment.exception.RequiredSkillException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class QuestionRestExceptionHandler {
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(DuplicateSkillException exc) {
-        ErrorResponse error = new ErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+public class PositionRestExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(RequiredSkillException exc) {
@@ -47,6 +40,4 @@ public class QuestionRestExceptionHandler {
         error.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-
 }
-
