@@ -1,7 +1,6 @@
 package com.ccsw.techassessment.position.model;
 
 import com.ccsw.techassessment.common.pagination.PageableRequest;
-import com.ccsw.techassessment.position.model.FiltersDto;
 
 public class PositionSearchDto {
     private PageableRequest pageable;

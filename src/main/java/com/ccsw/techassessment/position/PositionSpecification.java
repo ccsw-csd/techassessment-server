@@ -3,7 +3,6 @@ package com.ccsw.techassessment.position;
 
 import com.ccsw.techassessment.common.criteria.SearchCriteria;
 import com.ccsw.techassessment.position.model.Position;
-import com.ccsw.techassessment.question.model.Question;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
